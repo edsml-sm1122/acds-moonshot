@@ -17,7 +17,7 @@ def check_image_folder(image_folder):
 
     if not (os.path.exists(image_folder)):
         return "\n\nThe input folder should contain a subdirectory called images.\n"
-
+    
     if os.path.isfile(".DS_Store"):
         os.remove('.DS_Store')
 
@@ -27,13 +27,14 @@ def check_image_folder(image_folder):
     
     return "images"
 
+
 def check_label_folder(image_folder, label_folder):
     """Checks that the optional subirectory 'labels'
     contains a .csv file associated with each image file
     in the subdirectory 'images'."""
 
     for file in os.listdir(label_folder):
-        if not file.endswith(".csv"):
+        if not (file.endswith(".csv") or file.endswith(".DS_Store")):
             return "\n\nThe subdirectory labels should only contain .csv files. Please delete all other files.\n"
 
     img_count = count_files(image_folder)

@@ -19,24 +19,22 @@ def import_folder():
     if folder_path:
         images_folder = os.path.join(folder_path, "images")
         labels_folder = os.path.join(folder_path, "labels")
-        locations_folder = os.path.join(folder_path, "locations")
+        #locations_folder = os.path.join(folder_path, "locations")
 
         image_check = check_image_folder(images_folder)
         if image_check != "images":
             tk.messagebox.showerror('Error', image_check)
+        print(file_list)
 
         if os.path.exists(labels_folder):
             label_check = check_label_folder(images_folder, labels_folder)
             if label_check != "labels":
-                tk.messagebox.showerror('Error', image_check)
+                tk.messagebox.showerror('Error', label_check)
         
-        if os.path.exists(locations_folder):
-            locations_folder = check_location_folder(locations_folder)
-            if locations_folder != "locations":
-                tk.messagebox.showerror('Error', locations_folder)
-        
-        for file_name in os.listdir(images_folder):
-            file_list.insert(tk.END, file_name)
+        #if os.path.exists(locations_folder):
+        #    locations_folder = check_location_folder(locations_folder)
+        #    if locations_folder != "locations":
+        #        tk.messagebox.showerror('Error', locations_folder)
 
         
 def get_all_settings():
