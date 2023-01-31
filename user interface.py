@@ -2,23 +2,28 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import os
-
+from gui import check_label_folder, check_image_folder
 
 root = tk.Tk()
 root.title("Crater Detection")
 
 
-file_list = pd.Series(data = [], index=['a', 'b', 'c'])
+#file_list = pd.Series(data = [], index=['a', 'b', 'c'])
 
 def import_folder():
+
     folder_path = tk.filedialog.askdirectory()
     file_list.delete(0, tk.END) # clear the list
+
     if folder_path:
         images_folder = os.path.join(folder_path, "images")
-        if os.path.isdir(images_folder):
-            for file_name in os.listdir(images_folder):
-                if file_name.endswith(".png") or file_name.endswith(".jpg") or file_name.endswith(".tif"):
-                    file_list.insert(tk.END, file_name)
+        labels_folder = os.path.join(folder_path, "labels")
+        check_image_folder(images_folder)
+        #check_label_folder(images_folder, labels_folder)
+        #check_location_folder(...)
+        
+        for file_name in os.listdir(images_folder):
+            file_list.insert(tk.END, file_name)
 
         
 def get_all_settings():
@@ -33,7 +38,7 @@ def get_all_settings():
     
 
 # Import button
-import_btn = tk.Button(text="Import Folder", command=import_folder)
+import_btn = ttk.Button(text="Import Folder", command=import_folder)
 
 # Selection between Mars & Moon
 planet_selected = tk.StringVar()
@@ -66,7 +71,7 @@ output_dropdown = tk.OptionMenu(root, output_var, *output_options)
 
 
 # display the file list
-file_list = tk.Listbox(root)
+file_list = ttk.Treeview(root, column=("image", "label", "latitude", "longitude"), show='headings')
 
 # Run button
 get_output_btn = tk.Button(root, text="Submit", command=get_all_settings)
@@ -85,3 +90,4 @@ get_output_btn.pack()
 
 
 root.mainloop()
+vi
