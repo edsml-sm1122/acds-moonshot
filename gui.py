@@ -11,12 +11,17 @@ def count_files(directory, exclude='.DS_Store'):
                 count += 1
     return count
 
+
+def remove_ds_store(file_list):
+    return [item for item in file_list if '.DS_Store' not in item]
+
+
 def check_image_folder(image_folder):
     """Checks that the input folder contains the images subdirectory.
     Checks that the images are of an appropriate format, 
     (accepts only .jpg, .png, .tif)."""
 
-    files = []
+    files = {'name':[], 'path':[]}
 
     if not (os.path.exists(image_folder)):
         return "\n\nThe input folder should contain a subdirectory called images.\n", files
@@ -25,7 +30,8 @@ def check_image_folder(image_folder):
         if not (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".tif") or file.endswith(".DS_Store")):
             return f"\n\nThe image: '{file}' is of the wrong format.\nPlease change the format of the image or delete the file.\n", files
         else:
-            files.append(file)
+            files['name'].append(file)
+            files['path'].append(image_folder + '/' +  file)
 
     return "images", files
 
@@ -41,7 +47,7 @@ def check_label_folder(image_folder, label_folder):
         if not (file.endswith(".csv") or file.endswith(".DS_Store")):
             return "\n\nThe subdirectory labels should only contain .csv files. Please delete all other files.\n", files
         else:
-            files.append(file)
+            files.append(label_folder + '/' + file)
 
     img_count = count_files(image_folder)
     label_count = count_files(label_folder)
@@ -61,27 +67,21 @@ def check_label_folder(image_folder, label_folder):
 def check_location_folder(location_folder):
 
     if os.path.exists(location_folder):
-        # Get all the csv files in the folder
         csv_files = [f for f in os.listdir(location_folder) if f.endswith('.csv')]
-        # Create a list to store the values
-        values = []
-        # Iterate through each csv file
+
+        files = {'latitudes':[], 'longitudes':[]}
+
         for csv_file in csv_files:
-            # Open the csv file and read its content
             with open(os.path.join(location_folder, csv_file), 'r') as f:
                 reader = csv.reader(f)
-                # Convert the reader object to a list
                 csv_values = list(reader)
-                # Check if the csv file has only two values
                 if len(csv_values) == 1 and len(csv_values[0]) == 2:
-                    # Add the values to the list
-                    values.append(csv_values[0])
+                    files['latitudes'].append(csv_values[0][0])
+                    files['longitudes'].append(csv_values[0][1])
                 else:
-                    return 'The csv file {} has more than two values'.format(csv_file)
-                    # Show an error message if the csv file has more than two values
-                    #tk.messagebox.showerror('Error', 'The csv file {} has more than two values'.format(csv_file))
+                    return 'The csv file {} has more than two values'.format(csv_file), files
 
-        return "locations", values
+        return "locations", files
 
 def main():
     user_input = input("Enter the path of your file: ")
