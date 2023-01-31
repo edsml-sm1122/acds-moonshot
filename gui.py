@@ -53,4 +53,3 @@ def main():
     check_label_folder(image_folder, label_folder)
 
 
-main()
