@@ -1,34 +1,35 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
-
+import os
 
 
 root = tk.Tk()
 root.title("Crater Detection")
 
+
+file_list = pd.Series(data = [], index=['a', 'b', 'c'])
+
 def import_folder():
-    folder_path = filedialog.askdirectory()
-    print(f"Selected folder: {folder_path}")
+    folder_path = tk.filedialog.askdirectory()
+    file_list.delete(0, tk.END) # clear the list
+    if folder_path:
+        images_folder = os.path.join(folder_path, "images")
+        if os.path.isdir(images_folder):
+            for file_name in os.listdir(images_folder):
+                if file_name.endswith(".png") or file_name.endswith(".jpg") or file_name.endswith(".tif"):
+                    file_list.insert(tk.END, file_name)
 
-def select_planet():
-    if planet_selected.get() == "Mars":
-        print("Mars selected")
-    else:
-        print("Moon selected")
         
-def get_image_size():
-    image_size = image_size_entry.get()
-    print("Image size is:", image_size)
-    
-def get_IoU():
-    IoU = IoU_entry.get()
-    print("IoU threshold is:", IoU)
-
 def get_all_settings():
-    settings = dict({
-        
-    })
+    settings = {
+        'Planet': planet_selected.get(),
+        'IoU': IoU_entry.get(),
+        'ImageSize': image_size_entry.get(),
+        'output': output_var.get(), 
+    }
+    print(settings)
+    return settings
     
 
 # Import button
@@ -37,8 +38,8 @@ import_btn = tk.Button(text="Import Folder", command=import_folder)
 # Selection between Mars & Moon
 planet_selected = tk.StringVar()
 planet_selected.set("Mars")
-mars_rb = tk.Radiobutton(root, text="Mars", variable=planet_selected, value="Mars", command=select_planet)
-moon_rb = tk.Radiobutton(root, text="Moon", variable=planet_selected, value="Moon", command=select_planet)
+mars_rb = tk.Radiobutton(root, text="Mars", variable=planet_selected, value="Mars")
+moon_rb = tk.Radiobutton(root, text="Moon", variable=planet_selected, value="Moon")
 
 # Image size entry box
 image_size_label = tk.Label(root, text="Image size (m/px):")
@@ -48,7 +49,7 @@ image_size_entry.insert(0, default_image_size)
 
 # IoU
 IoU_label = tk.Label(root, text="IoU thresholds:")
-default_IoU = 10
+default_IoU = 0.5
 IoU_entry = tk.Entry(root)
 IoU_entry.insert(0, default_IoU)
 
@@ -64,12 +65,11 @@ output_var.set(output_options[0])
 output_dropdown = tk.OptionMenu(root, output_var, *output_options)
 
 
-
-
-
+# display the file list
+file_list = tk.Listbox(root)
 
 # Run button
-get_output_btn = tk.Button(root, text="Submit", command=get_image_size)
+get_output_btn = tk.Button(root, text="Submit", command=get_all_settings)
 
 import_btn.pack()
 mars_rb.pack()
@@ -80,6 +80,7 @@ IoU_label.pack()
 IoU_entry.pack()
 output_label.pack()
 output_dropdown.pack()
+file_list.pack()
 get_output_btn.pack()
 
 

@@ -244,9 +244,9 @@ cylindrical projection and a spherical planet.
 
 Your tool should:
 * Accept a User-specified input folder location. The input folder
-should contain a subdirectory `images/` that contains a single image
-or multiple images, which should be treated independently.  The input
-folder location should also contain an optional subdirectory
+  should contain a subdirectory `images/` that contains a single image
+  or multiple images, which should be treated independently.  The input
+  folder location should also contain an optional subdirectory
   `labels/` containing a `.csv` file associated with each image file
   that provides a list of all the ground truth bounding boxes for
   craters in the image.
@@ -359,5 +359,4 @@ The presentation must include the following:
   size-frequency distribution from the detections. Demonstrate any
   additional features of your tool that you have had time to implement.
 * Show the results of your tool for two images of the Moon provided on Friday.
-
 
