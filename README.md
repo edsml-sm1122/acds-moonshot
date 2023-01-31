@@ -248,7 +248,7 @@ Your tool should:
   or multiple images, which should be treated independently.  The input
   folder location should also contain an optional subdirectory
   `labels/` containing a `.csv` file associated with each image file
-  that provides a list of all the ground truth bounding boxes for
+  that provides a list of	 all the ground truth bounding boxes for
   craters in the image.
 * Accept images in any sensible format (e.g., `.jpg`,
 `.tif`, `.png`) and any size (width and height in pixels).

@@ -2,25 +2,60 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import os
-
+from gui import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
+import pandas as pd
 
 root = tk.Tk()
 root.title("Crater Detection")
+root.geometry('500x500')
 
-
-file_list = pd.Series(data = [], index=['a', 'b', 'c'])
 
 def import_folder():
+
     folder_path = tk.filedialog.askdirectory()
-    file_list.delete(0, tk.END) # clear the list
+    print(folder_path)
+
     if folder_path:
         images_folder = os.path.join(folder_path, "images")
-        if os.path.isdir(images_folder):
-            for file_name in os.listdir(images_folder):
-                if file_name.endswith(".png") or file_name.endswith(".jpg") or file_name.endswith(".tif"):
-                    file_list.insert(tk.END, file_name)
+        labels_folder = os.path.join(folder_path, "labels")
+        locations_folder = os.path.join(folder_path, "locations")
 
-        
+        image_check, files = check_image_folder(images_folder)
+        if image_check != "images":
+            tk.messagebox.showerror('Error', image_check)
+
+        files['name'] = remove_ds_store(files['name'])
+        files['path'] = remove_ds_store(files['path'])
+
+        df = pd.DataFrame.from_dict(files)
+
+        if os.path.exists(labels_folder):
+            label_check, files = check_label_folder(images_folder, labels_folder)
+            if label_check != "labels":
+                label_status.config(bg='red')
+                tk.messagebox.showerror('Error', label_check)
+            else:
+                label_status.config(bg='#10cc52')
+            
+            files = remove_ds_store(files)
+
+            df["labels"] = files
+
+        if os.path.exists(locations_folder):
+            locations_folder, files = check_location_folder(locations_folder)
+            if locations_folder != "locations":
+                tk.messagebox.showerror('Error', locations_folder)
+            
+            files["latitudes"] = remove_ds_store(files["latitudes"])
+            files["longitudes"] = remove_ds_store(files["longitudes"])
+
+            df["latitudes"] = files['latitudes']
+            df["longitudes"] = files['longitudes']
+
+        df.to_csv('data.csv', index=False)
+        return df
+
+
 def get_all_settings():
     settings = {
         'Planet': planet_selected.get(),
@@ -33,7 +68,11 @@ def get_all_settings():
     
 
 # Import button
-import_btn = tk.Button(text="Import Folder", command=import_folder)
+import_btn = ttk.Button(text="Import Folder", command=import_folder)
+
+# label status
+label_label = tk.Label(root, text="Images labelled:")
+label_status = tk.Canvas(root, height=14, width=14, bg='red')
 
 # Selection between Mars & Moon
 planet_selected = tk.StringVar()
@@ -66,12 +105,14 @@ output_dropdown = tk.OptionMenu(root, output_var, *output_options)
 
 
 # display the file list
-file_list = tk.Listbox(root)
+#file_list = ttk.Treeview(root, column=("images", "latitude", "longitude"), show='headings')
 
 # Run button
 get_output_btn = tk.Button(root, text="Submit", command=get_all_settings)
 
 import_btn.pack()
+label_label.pack()
+label_status.pack()
 mars_rb.pack()
 moon_rb.pack()
 image_size_label.pack()
@@ -80,7 +121,7 @@ IoU_label.pack()
 IoU_entry.pack()
 output_label.pack()
 output_dropdown.pack()
-file_list.pack()
+#file_list.pack()
 get_output_btn.pack()
 
 
