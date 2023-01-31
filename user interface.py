@@ -9,8 +9,6 @@ root = tk.Tk()
 root.title("Crater Detection")
 
 
-#file_list = pd.Series(data = [], index=['a', 'b', 'c'])
-
 def import_folder():
 
     folder_path = tk.filedialog.askdirectory()
@@ -21,16 +19,21 @@ def import_folder():
         labels_folder = os.path.join(folder_path, "labels")
         #locations_folder = os.path.join(folder_path, "locations")
 
-        image_check = check_image_folder(images_folder)
+        image_check, files = check_image_folder(images_folder)
         if image_check != "images":
             tk.messagebox.showerror('Error', image_check)
-        print(file_list)
+
+        df = pd.DataFrame(files, columns=["images"])
 
         if os.path.exists(labels_folder):
-            label_check = check_label_folder(images_folder, labels_folder)
+            label_check, files = check_label_folder(images_folder, labels_folder)
             if label_check != "labels":
                 tk.messagebox.showerror('Error', label_check)
+            df["labels"] = files
         
+        df = df[~((df['images'].str.contains('.DS_Store')) & (df['labels'].str.contains('.DS_Store')))]
+        print(df)
+
         #if os.path.exists(locations_folder):
         #    locations_folder = check_location_folder(locations_folder)
         #    if locations_folder != "locations":
@@ -82,7 +85,7 @@ output_dropdown = tk.OptionMenu(root, output_var, *output_options)
 
 
 # display the file list
-file_list = ttk.Treeview(root, column=("image", "label", "latitude", "longitude"), show='headings')
+file_list = ttk.Treeview(root, column=("images", "latitude", "longitude"), show='headings')
 
 # Run button
 get_output_btn = tk.Button(root, text="Submit", command=get_all_settings)

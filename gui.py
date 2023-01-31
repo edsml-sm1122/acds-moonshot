@@ -1,5 +1,6 @@
 import os
 import csv
+import pandas as pd
 
 def count_files(directory, exclude='.DS_Store'):
     """Counts files in directory, but excludes the .DS_Store files."""
@@ -15,17 +16,18 @@ def check_image_folder(image_folder):
     Checks that the images are of an appropriate format, 
     (accepts only .jpg, .png, .tif)."""
 
+    files = []
+
     if not (os.path.exists(image_folder)):
-        return "\n\nThe input folder should contain a subdirectory called images.\n"
-    
-    if os.path.isfile(".DS_Store"):
-        os.remove('.DS_Store')
+        return "\n\nThe input folder should contain a subdirectory called images.\n", files
 
     for file in os.listdir(image_folder):
         if not (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".tif") or file.endswith(".DS_Store")):
-            return f"\n\nThe image: '{file}' is of the wrong format.\nPlease change the format of the image or delete the file.\n"
-    
-    return "images"
+            return f"\n\nThe image: '{file}' is of the wrong format.\nPlease change the format of the image or delete the file.\n", files
+        else:
+            files.append(file)
+
+    return "images", files
 
 
 def check_label_folder(image_folder, label_folder):
@@ -33,17 +35,27 @@ def check_label_folder(image_folder, label_folder):
     contains a .csv file associated with each image file
     in the subdirectory 'images'."""
 
+    files = []
+
     for file in os.listdir(label_folder):
         if not (file.endswith(".csv") or file.endswith(".DS_Store")):
-            return "\n\nThe subdirectory labels should only contain .csv files. Please delete all other files.\n"
+            return "\n\nThe subdirectory labels should only contain .csv files. Please delete all other files.\n", files
+        else:
+            files.append(file)
 
     img_count = count_files(image_folder)
     label_count = count_files(label_folder)
 
     if img_count != label_count:
-        return "\n\nThe number of images and labels do not match.\n"
+        return "\n\nThe number of images and labels do not match.\n", files
     
-    return "labels"
+    images_files = set(os.path.splitext(f)[0] for f in os.listdir(image_folder))
+    labels_files = set(os.path.splitext(f)[0] for f in os.listdir(label_folder))
+
+    if images_files != labels_files:
+        return "File names in the images & labels subdirectories do not match.", files
+    
+    return "labels", files
 
 
 def check_location_folder(location_folder):
