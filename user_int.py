@@ -186,7 +186,6 @@ class App(tk.Tk):
                 boundBox(image_dirs[i], 
                          settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
                          output_path)
-                
 
         elif settings['Options'][2]:
             pass
