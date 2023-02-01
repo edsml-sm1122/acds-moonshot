@@ -50,6 +50,7 @@ class DataManager:
     if predictions:
       try: 
         os.mkdir(os.path.join(self.root_dir, predictions))  
+        self.predictions=predictions
       except OSError as error: 
         return(error) 
 
