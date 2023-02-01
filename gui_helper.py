@@ -8,7 +8,7 @@ def remove_ds_store(file_list):
     """
         Removes strings that contain the substring '.DS_Store'.
 
-        This function is used in the import_folder method (see user_int.py).
+        This function is used in the import_folder() method (see user_int.py).
         It is also used in the check_file_names(folder_1, folder_2) function below.
 
         Parameters
@@ -17,7 +17,7 @@ def remove_ds_store(file_list):
 
         Returns
         -------
-        file_list but without the strings that contain the substring '.DS_Store'.
+        list: file_list but without the strings which contain the substring '.DS_Store'.
 
         """
     return [item for item in file_list if '.DS_Store' not in item]
@@ -26,11 +26,10 @@ def remove_ds_store(file_list):
 def check_image_folder(image_folder):
     """
         Checks that the 'images' subdirectory exists.
-        Checks that the images in the subdirectory are of an appropriate format, 
-        (accepts only .jpg, .png, .tif).
+        Checks that the images in the subdirectory are of an appropriate format (accepts only .jpg, .png, .tif).
         If no errors are found, appends the name and path of the images to a dictionary, and returns the dictionary.
 
-        This function is used in the import_folder method (see user_int.py).
+        This function is used in the import_folder() method (see user_int.py).
 
         Parameters
         ----------
@@ -61,10 +60,9 @@ def check_image_folder(image_folder):
 
 def count_files(directory, exclude='.DS_Store'):
     """
-        Counts files in a directory, but excludes a specific file (default: .DS_Store files).
+        Counts files in a directory, but does not count the exclude file (default: .DS_Store files).
 
-        This function is used in the check_label_folder(image_folder, label_folder) function,
-        and it is also used in the check_location_folder(image_folder, location_folder) function below.
+        This function is used in check_label_folder(image_folder, label_folder) and in check_location_folder(image_folder, location_folder), below.
 
         Parameters
         ----------
@@ -89,7 +87,7 @@ def ends_with_csv(folder):
     """
         Checks that a directory only contains .csv files (it overlooks .DS_Store files).
 
-        This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder) below.
+        This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder), below.
 
         Parameters
         ----------
@@ -112,7 +110,7 @@ def check_file_names(folder_1, folder_2):
     """
         Checks that two directores have matching file names (excludes the file extensions).
 
-        This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder) below.
+        This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder), below.
 
         Parameters
         ----------
@@ -121,7 +119,7 @@ def check_file_names(folder_1, folder_2):
 
         Returns
         -------
-        - Boolean: True if the directories contain files with matching names. 
+        - Boolean: True if the directories contains files with matching names. 
 
         """
 
@@ -140,7 +138,7 @@ def check_label_folder(image_folder, label_folder):
         Checks that the names of the csv files match the names of the images in the image_folder.
         If no errors are found, appends the path of the csv files from the label_folder to a list and returns the list.
 
-        This function is used in the import_folder method (see user_int.py).
+        This function is used in the import_folder() method (see user_int.py).
 
         Parameters
         ----------
@@ -150,7 +148,7 @@ def check_label_folder(image_folder, label_folder):
         Returns
         -------
         - A string: if the string "labels" is returned, no errors were found; otherwise, the string describes the error.
-        - files: list which contains path of the csv files in the labels_folder.
+        - files: list which contains the paths to the csv files in the labels_folder.
         (Note: the list is empty if an error is found.)
 
         """
@@ -176,7 +174,26 @@ def check_label_folder(image_folder, label_folder):
 
 
 def check_location_folder(image_folder, location_folder):
-    """
+    """ 
+        Checks that the location_folder only contains csv files.
+        Checks that the location_folder contains a .csv file associated with each file in the image_folder.
+        Checks that the names of the csv files match the names of the images in the image_folder.
+        Checks that the csv files only contain two values (the latitude and longitude associated with the images in the image_folder).
+        
+        If no errors are found, appends the latitude and longitude infromation from the csv files to a dictionary, and returns the dictionary.
+
+        This function is used in the import_folder() method (see user_int.py).
+
+        Parameters
+        ----------
+        image_folder: path to the 'images' folder.
+        location_folder: path to the 'locations' folder.
+
+        Returns
+        -------
+        - A string: if the string "locations" is returned, no errors were found; otherwise, the string describes the error.
+        - files: dictionary which contains the latitude and longitude information from the csv files.
+        (Note: the list is empty if an error is found.)
         
 
         """
