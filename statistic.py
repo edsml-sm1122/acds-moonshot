@@ -1,26 +1,17 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+
+import os
+from os import listdir
+import shutil
 import csv
+
+
+import random
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-def plot_frequency_distribution(path):
-    df = pd.read_csv(path)
-
-    sns.displot(df, x="crater_size", kde=False)
-
-    plt.xlabel("Crater Size (km)")
-    plt.ylabel("Frequency")
-    plt.title("Size-Frequency Distribution of Craters")
-
-    plt.show()
-
-
-
-
+import matplotlib.patches as patches
+from PIL import Image, ImageDraw
 
 
 

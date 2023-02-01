@@ -1,12 +1,16 @@
+"""This module is used for the user interface (GUI)"""
+
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import os
 from gui_helper import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
-from visualisation import atomBound, boundBox, comparedBox
+from visualisation import boundBox, comparedBox
+from statistic import tripleStatic
 import pandas as pd
 import shutil
 import csv
+
 
 class App(tk.Tk):
 
@@ -41,10 +45,8 @@ class App(tk.Tk):
                         'CDM and true bounding boxes', 
                         'Crater size-frequency distribution', 
                         'Performance matrix']
-        self.option_list = [0, 1, 0, 0, 0]
+        self.option_list = [0, 0, 0, 0, 0]
         
-
-
         self.get_output_btn = tk.Button(self.master, text="Submit", command=self.submit_functions)
 
         self.import_btn.pack()
@@ -87,12 +89,16 @@ class App(tk.Tk):
                 locations_folder, files = check_location_folder(images_folder, locations_folder)
                 if locations_folder != "locations":
                     tk.messagebox.showerror('Error', locations_folder)
+                else:
+                    location_label = tk.Label(self.master, text="Locations have been provided.")
                 
                 files["latitudes"] = remove_ds_store(files["latitudes"])
                 files["longitudes"] = remove_ds_store(files["longitudes"])
 
                 import_df["latitudes"] = files['latitudes']
                 import_df["longitudes"] = files['longitudes']
+            else:
+                location_label = tk.Label(self.master, text="Locations have not been provided.")
 
             
             file_list = tk.Listbox(self.master)
@@ -106,22 +112,109 @@ class App(tk.Tk):
                     tk.messagebox.showerror('Error', label_check)
                 else:
                     label_label = tk.Label(self.master, text="The images are labelled!")
-                    #label_status = tk.Canvas(self.master, height=14, width=14, bg='#10cc52')
                 
                 files = remove_ds_store(files)
                 import_df["labels"] = files
             else:
                 label_label = tk.Label(self.master, text="The images are not labelled!")
-                #label_status = tk.Canvas(self.master, height=14, width=14, bg='red')
-                #label_status.config(bg='red')
             
             label_label.pack(side='top')
-            #label_status.pack(side='top')
+            location_label.pack(side='top')
 
             import_df.to_csv('import_data.csv', index=False)
             
             return import_df
 
+
+    def extract_df_columns(self, path):
+        image_dirs = []
+        image_ids = []
+        label_dirs = []
+        
+        with open(path, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            headers = next(reader)
+            if 'labels' in headers:
+                index = headers.index('labels')
+                for row in reader:
+                    image_dirs.append(row[1])
+                    image_ids.append(row[0].split(".")[0])
+                    label_dirs.append(row[index])
+            else:
+                for row in reader:
+                    image_dirs.append(row[1])
+                    image_ids.append(row[0].split(".")[0])
+        
+        return image_dirs, image_ids, label_dirs
+
+
+    def no_box(self, settings, image_dirs):
+
+        if settings['Options'][0]:
+            try:
+                os.mkdir(settings['Output'] + '/' + 'Original images')
+            except FileExistsError:
+                    tk.messagebox.showerror("Error", "Original images folder already exists")
+    
+            for image_dir in image_dirs:
+                # get the filename from the directory path
+                filename = os.path.basename(image_dir)
+                
+                # construct the output path
+                output_path = os.path.join(settings['Output'] + '/' + 'Original images' + '/', filename)
+                
+                # copy the image to the output folder
+                shutil.copy(image_dir, output_path)
+                
+    def one_box(self, settings, image_dirs, image_ids):
+        if settings['Options'][1]:
+            try:
+                os.mkdir(settings['Output'] + '/' + 'CDM bounding boxes')
+            except FileExistsError:
+                tk.messagebox.showerror("Error", "CDM bounding boxes folder already exists")
+                
+            for i in range(len(image_ids)):
+                filename = os.path.basename(image_dirs[i])
+                output_path = os.path.join(settings['Output'] + '/' + 'CDM bounding boxes' + '/', filename)
+                boundBox(image_dirs[i], 
+                         settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
+                         output_path)
+                
+                
+    def two_boxes(self, settings, image_dirs, image_ids, label_dirs):
+        if settings['Options'][2]:
+            if label_dirs:
+                try:
+                    os.mkdir(settings['Output'] + '/' + 'True labels and CDM bounding boxes')
+                except FileExistsError:
+                    tk.messagebox.showerror("Error", "True labels and CDM bounding boxes folder already exists")
+                    
+                for i in range(len(image_ids)):
+                    filename = os.path.basename(image_dirs[i])
+                    output_path = os.path.join(settings['Output'] + '/' + 'True labels and CDM bounding boxes' + '/', filename)
+                    comparedBox(image_dirs[i], 
+                             settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
+                             label_dirs[i],
+                             output_path)
+                    
+    def performance_stats(self, settings, image_ids, label_dirs, IoU):
+        if settings['Options'][4]:
+            if label_dirs:
+                try:
+                    os.mkdir(settings['Output'] + '/' + 'statistics')
+                except FileExistsError:
+                    tk.messagebox.showerror("Error", "statistics folder already exists")
+                for i in range(len(image_ids)):
+                    filename = os.path.basename(label_dirs[i])
+                    output_path = os.path.join(settings['Output'] + '/' + 'statistics' + '/', filename)
+                    print(output_path)
+                    tripleStatic( 
+                             settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
+                             label_dirs[i],
+                             output_path,
+                             threshold = float(IoU))
+                    
+                
 
     def submit_functions(self):
         
@@ -140,59 +233,20 @@ class App(tk.Tk):
             'Output': dir_path,
         }
         
-        
-        
         # passing the parameters to the model, creating a detection folder into the user selected output directory
         #os.mkdir(settings['Output'] + '/' + 'detections')
         
+        image_dirs, image_ids, label_dirs = self.extract_df_columns('import_data.csv')
         
+        self.no_box(settings, image_dirs)
+        self.one_box(settings, image_dirs, image_ids)
+        self.two_boxes(settings, image_dirs, image_ids, label_dirs)
         
-        # seperate imported image directories
-        image_dirs = []
-        image_ids = []
-        with open('import_data.csv', 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            # skip the header row
-            next(reader)
-            for row in reader:
-                # append the second column (image directory path) to the list
-                image_dirs.append(row[1])
-                image_ids.append(row[0].split(".")[0])
-        
-        print(image_ids)
-        
-        # when the user want original input images
-        if settings['Options'][0]:
-            os.mkdir(settings['Output'] + '/' + 'Original images')
-    
-            for image_dir in image_dirs:
-                # get the filename from the directory path
-                filename = os.path.basename(image_dir)
-                
-                # construct the output path
-                output_path = os.path.join(settings['Output'] + '/' + 'Original images' + '/', filename)
-                
-                # copy the image to the output folder
-                shutil.copy(image_dir, output_path)
-            
+        self.performance_stats(settings, image_ids, label_dirs, settings['IoU'])
         # when the user want the bounding box for the detections only   
-        elif settings['Options'][1]:
-            print('this is processed successfully')
-            os.mkdir(settings['Output'] + '/' + 'Images with detected bounding boxes')
-            for i in range(len(image_ids)):
-                print(i)
-                filename = os.path.basename(image_dirs[i])
-                output_path = os.path.join(settings['Output'] + '/' + 'Images with detected bounding boxes' + '/', filename)
-                boundBox(image_dirs[i], 
-                         settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
-                         output_path)
-
-        elif settings['Options'][2]:
-            pass
-        elif settings['Options'][1]:
-            pass
-        elif settings['Options'][1]:
-            pass
+        
+        
+        tk.messagebox.showinfo("Success",  "Successfully exported!")
 
             
             
