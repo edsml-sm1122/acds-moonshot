@@ -225,13 +225,3 @@ def check_location_folder(image_folder, location_folder):
 
     return "locations", files
 
-def main():
-    user_input = input("Enter the path of your file: ")
-
-    image_folder = user_input + "/images"
-    label_folder = user_input + "/labels"
-
-    check_image_folder(image_folder)
-    check_label_folder(image_folder, label_folder)
-
-
