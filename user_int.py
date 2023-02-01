@@ -4,6 +4,7 @@ from tkinter import ttk
 import os
 from gui import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
 import pandas as pd
+import csv
 
 class App(tk.Tk):
 
@@ -37,7 +38,7 @@ class App(tk.Tk):
                         'CDM bounding boxes', 
                         'CDM and true bounding boxes', 
                         'Crater size-frequency distribution', 
-                        'Confusion matrix']
+                        'Performance matrix']
         self.option_list = [0, 0, 0, 0, 0]
         
 
@@ -78,7 +79,7 @@ class App(tk.Tk):
 
             files['name'] = remove_ds_store(files['name'])
             files['path'] = remove_ds_store(files['path'])
-            df = pd.DataFrame.from_dict(files)
+            import_df = pd.DataFrame.from_dict(files)
             
             if os.path.exists(locations_folder):
                 locations_folder, files = check_location_folder(locations_folder)
@@ -88,13 +89,13 @@ class App(tk.Tk):
                 files["latitudes"] = remove_ds_store(files["latitudes"])
                 files["longitudes"] = remove_ds_store(files["longitudes"])
 
-                df["latitudes"] = files['latitudes']
-                df["longitudes"] = files['longitudes']
+                import_df["latitudes"] = files['latitudes']
+                import_df["longitudes"] = files['longitudes']
 
-            df.to_csv('data.csv', index=False)
+            
             file_list = tk.Listbox(self.master)
             file_list.pack()
-            for name in df['name']:
+            for name in import_df['name']:
                 file_list.insert(tk.END, name)
 
             if os.path.exists(labels_folder):
@@ -106,7 +107,7 @@ class App(tk.Tk):
                     #label_status = tk.Canvas(self.master, height=14, width=14, bg='#10cc52')
                 
                 files = remove_ds_store(files)
-                df["labels"] = files
+                import_df["labels"] = files
             else:
                 label_label = tk.Label(self.master, text="The images are not labelled!")
                 #label_status = tk.Canvas(self.master, height=14, width=14, bg='red')
@@ -115,10 +116,15 @@ class App(tk.Tk):
             label_label.pack(side='top')
             #label_status.pack(side='top')
 
-            return df
+            import_df.to_csv('import_data.csv', index=False)
+            
+            return import_df
 
 
-    def get_all_settings(self):
+    def submit_functions(self):
+        
+        dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
+
         for i in range(5):
             if self.update_option_list[i].get() == 1:
                 self.option_list[i] = 1
@@ -128,22 +134,33 @@ class App(tk.Tk):
             'Planet': self.planet_selected.get(),
             'IoU': self.IoU_entry.get(),
             'ImageSize': self.image_size_entry.get(),
-            'Options': self.option_list
+            'Options': self.option_list,
+            'Output': dir_path,
         }
-        print(settings)
-        return settings
+        
+        
+        with open('settings.csv', 'w', newline='') as csvfile:
+            # Creating a writer object
+            writer = csv.DictWriter(csvfile, fieldnames=settings.keys())
 
+            # Writing headers (keys of the dictionary)
+            writer.writeheader()
 
-    def submit_functions(self):
+            # Writing data row
+            writer.writerow(settings)
+            
+        # setting_df = pd.DataFrame.from_dict(settings)
+        # setting_df.to_csv('settings.csv', index=False)
+        
+        # print(settings)
+        
+        #print("Directory saved as:", dir_path)   
 
-        self.settings = self.get_all_settings()
-        dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
-
-        print("Directory saved as:", dir_path)   
-
-        os.mkdir(dir_path + '/' + 'detections')
-        os.mkdir(dir_path + '/' + 'images')
-        os.mkdir(dir_path + '/' + 'statistics')       
+        # os.mkdir(dir_path + '/' + 'detections')
+        # os.mkdir(dir_path + '/' + 'images')
+        # os.mkdir(dir_path + '/' + 'statistics') 
+        
+        #self.settings = self.get_all_settings()      
 
 
 def main(): 
