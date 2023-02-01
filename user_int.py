@@ -41,7 +41,7 @@ class App(tk.Tk):
                         'CDM and true bounding boxes', 
                         'Crater size-frequency distribution', 
                         'Performance matrix']
-        self.option_list = [0, 0, 0, 0, 0]
+        self.option_list = [0, 1, 0, 0, 0]
         
 
 
@@ -145,6 +145,8 @@ class App(tk.Tk):
         # passing the parameters to the model, creating a detection folder into the user selected output directory
         #os.mkdir(settings['Output'] + '/' + 'detections')
         
+        
+        
         # seperate imported image directories
         image_dirs = []
         image_ids = []
@@ -155,7 +157,9 @@ class App(tk.Tk):
             for row in reader:
                 # append the second column (image directory path) to the list
                 image_dirs.append(row[1])
-                image_ids.append(row[0])
+                image_ids.append(row[0].split(".")[0])
+        
+        print(image_ids)
         
         # when the user want original input images
         if settings['Options'][0]:
@@ -166,16 +170,22 @@ class App(tk.Tk):
                 filename = os.path.basename(image_dir)
                 
                 # construct the output path
-                output_path = os.path.join(settings['Output'] + '/' + 'Original images', filename)
+                output_path = os.path.join(settings['Output'] + '/' + 'Original images' + '/', filename)
                 
                 # copy the image to the output folder
                 shutil.copy(image_dir, output_path)
             
         # when the user want the bounding box for the detections only   
         elif settings['Options'][1]:
+            print('this is processed successfully')
             os.mkdir(settings['Output'] + '/' + 'Images with detected bounding boxes')
-            for image_dir in image_dirs:
-                boundBox(image_dir, settings['Output'] + '/' + 'detections', )
+            for i in range(len(image_ids)):
+                print(i)
+                filename = os.path.basename(image_dirs[i])
+                output_path = os.path.join(settings['Output'] + '/' + 'Images with detected bounding boxes' + '/', filename)
+                boundBox(image_dirs[i], 
+                         settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
+                         output_path)
                 
 
         elif settings['Options'][2]:
