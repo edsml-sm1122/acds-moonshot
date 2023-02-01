@@ -41,11 +41,11 @@ class App(tk.Tk):
         # output settings selection box
         self.output_label = tk.Label(self.master, text="Output settings:")
         self.checkbox_labels = ['Original', 
-                        'CDM bounding boxes', 
-                        'CDM and true bounding boxes', 
-                        'Crater size-frequency distribution', 
-                        'Performance matrix']
-        self.option_list = [0, 0, 0, 0, 0]
+                                'CDM bounding boxes', 
+                                'CDM and true bounding boxes', 
+                                'Crater size-frequency distribution', 
+                                'Performance matrix']
+        self.option_list = [0, 1, 0, 0, 0]
         
         self.get_output_btn = tk.Button(self.master, text="Submit", command=self.submit_functions)
 
@@ -58,12 +58,24 @@ class App(tk.Tk):
         self.IoU_entry.pack()
         self.output_label.pack()
         
+        self.label_added = False
+        self.location_added = False
+        
+        
         self.update_option_list = []
         for i in range(5):
             self.temp_option = tk.IntVar()
-            self.chk = tk.Checkbutton(self.master, text=self.checkbox_labels[i], variable=self.temp_option)
+            
+            if i == 1:
+                self.chk = tk.Checkbutton(self.master, text=self.checkbox_labels[i], variable=self.temp_option, state="disabled")
+            else:  
+                self.chk = tk.Checkbutton(self.master, text=self.checkbox_labels[i], variable=self.temp_option)
+            
+            
+            self.temp_option.set(self.option_list[i])
             self.chk.pack()
             self.update_option_list.append(self.temp_option)
+            
         
         self.get_output_btn.pack()
 
@@ -92,11 +104,13 @@ class App(tk.Tk):
                 else:
                     location_label = tk.Label(self.master, text="Locations have been provided.")
                 
-                files["latitudes"] = remove_ds_store(files["latitudes"])
-                files["longitudes"] = remove_ds_store(files["longitudes"])
+                    files["latitudes"] = remove_ds_store(files["latitudes"])
+                    files["longitudes"] = remove_ds_store(files["longitudes"])
 
-                import_df["latitudes"] = files['latitudes']
-                import_df["longitudes"] = files['longitudes']
+                    import_df["latitudes"] = files['latitudes']
+                    import_df["longitudes"] = files['longitudes']
+                    
+                    self.location_added = True
             else:
                 location_label = tk.Label(self.master, text="Locations have not been provided.")
 
@@ -112,9 +126,9 @@ class App(tk.Tk):
                     tk.messagebox.showerror('Error', label_check)
                 else:
                     label_label = tk.Label(self.master, text="The images are labelled!")
-                
-                files = remove_ds_store(files)
-                import_df["labels"] = files
+                    files = remove_ds_store(files)
+                    import_df["labels"] = files
+                    self.label_added = True
             else:
                 label_label = tk.Label(self.master, text="The images are not labelled!")
             
@@ -123,7 +137,11 @@ class App(tk.Tk):
 
             import_df.to_csv('import_data.csv', index=False)
             
+            print(self.label_added)
+            print(self.location_added)
             return import_df
+            
+        
 
 
     def extract_df_columns(self, path):
@@ -134,7 +152,7 @@ class App(tk.Tk):
         with open(path, 'r') as csvfile:
             reader = csv.reader(csvfile)
             headers = next(reader)
-            if 'labels' in headers:
+            if self.label_added:
                 index = headers.index('labels')
                 for row in reader:
                     image_dirs.append(row[1])
@@ -200,22 +218,27 @@ class App(tk.Tk):
     def performance_stats(self, settings, image_ids, label_dirs, IoU):
         if settings['Options'][4]:
             if label_dirs:
+                TP, FP, FN = 0,0,0
                 try:
                     os.mkdir(settings['Output'] + '/' + 'statistics')
                 except FileExistsError:
                     tk.messagebox.showerror("Error", "statistics folder already exists")
                 for i in range(len(image_ids)):
-                    filename = os.path.basename(label_dirs[i])
-                    output_path = os.path.join(settings['Output'] + '/' + 'statistics' + '/', filename)
-                    print(output_path)
-                    tripleStatic( 
+                    nTP, nFP, nFN = tripleStatic( 
                              settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
                              label_dirs[i],
-                             output_path,
                              threshold = float(IoU))
-                    
+                    TP += nTP
+                    FP += nFP
+                    FN += nFN
+                output_path = os.path.join(settings['Output'] + '/' + 'statistics' + '/', 'performance matrix.csv')
+                triOut = [[TP, FP, FN]]
+                triName=['TP','FP','FN']
+                triCsv=pd.DataFrame(columns=triName,data=triOut)
+                triCsv.to_csv(output_path, index=False)
                 
 
+                    
     def submit_functions(self):
         
         dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
@@ -243,45 +266,11 @@ class App(tk.Tk):
         self.two_boxes(settings, image_dirs, image_ids, label_dirs)
         
         self.performance_stats(settings, image_ids, label_dirs, settings['IoU'])
+
         # when the user want the bounding box for the detections only   
         
         
-        tk.messagebox.showinfo("Success",  "Successfully exported!")
-
-            
-            
-        
-        
-        
-        
-        
-        
-        '''
-        with open('settings.csv', 'w', newline='') as csvfile:
-            # Creating a writer object
-            writer = csv.DictWriter(csvfile, fieldnames=settings.keys())
-
-            # Writing headers (keys of the dictionary)
-            writer.writeheader()
-
-            # Writing data row
-            writer.writerow(settings)
-        '''
-        
-            
-            
-        # setting_df = pd.DataFrame.from_dict(settings)
-        # setting_df.to_csv('settings.csv', index=False)
-        
-        # print(settings)
-        
-        #print("Directory saved as:", dir_path)   
-
-        # os.mkdir(dir_path + '/' + 'detections')
-        # os.mkdir(dir_path + '/' + 'images')
-        # os.mkdir(dir_path + '/' + 'statistics') 
-        
-        #self.settings = self.get_all_settings()      
+        tk.messagebox.showinfo("Success",  "Successfully exported!")    
 
 
 def main(): 

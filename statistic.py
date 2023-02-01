@@ -4,7 +4,6 @@ from os import listdir
 import shutil
 import csv
 
-
 import random
 
 import numpy as np
@@ -23,7 +22,7 @@ def iouCal(x1, y1, x2, y2, w1, h1, w2, h2):
     return (((w1+w2)/2 - abs(x1-x2)) * ((h1+h2)/2 - abs(y1-y2))) / (w1*h1 + w2*h2 - (((w1+w2)/2 - abs(x1-x2)) * ((h1+h2)/2 - abs(y1-y2))))
 
 
-def tripleStatic(bbpath, tbpath, outpath, threshold=0.5):
+def tripleStatic(bbpath, tbpath, threshold=0.5):
   # output TP-FP-FN csv file to a folder
   crtP = []
   crtT = []
@@ -52,10 +51,10 @@ def tripleStatic(bbpath, tbpath, outpath, threshold=0.5):
       FP = FP + 1
   FN = len(crtT) - TP
 
-  triOut = [[TP, FP, FN]]
-  triName=['TP','FP','FN']
-  triCsv=pd.DataFrame(columns=triName,data=triOut)
-  triCsv.to_csv(outpath, index=False)
+  #triOut = [[TP, FP, FN]]
+  #triName=['TP','FP','FN']
+  #triCsv=pd.DataFrame(columns=triName,data=triOut)
+  #triCsv.to_csv(outpath, index=False)
   return TP, FP, FN
 
 
