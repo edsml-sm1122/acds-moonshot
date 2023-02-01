@@ -3,9 +3,7 @@ from os import listdir
 
 import csv
 
-
 import random
-
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -48,7 +46,19 @@ def comparedBox(imgpath, bbpath, tbpath, outpath):
   #display(rawimg)
 
 
-#boundBox('/content/drive/MyDrive/Boxuan/tripOri.png', '/content/drive/MyDrive/Boxuan/tripPred.csv', '/content/drive/MyDrive/Boxuan/images/triOutTest1.jpg')
-#comparedBox('/content/drive/MyDrive/Boxuan/tripOri.png', '/content/drive/MyDrive/Boxuan/tripPred.csv', '/content/drive/MyDrive/Boxuan/tripTruth.csv', '/content/drive/MyDrive/Boxuan/images/triOutTest2.jpg')
+'''
 
-boundBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png', '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/labels/test_1.csv', '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output.jpg')  
+boundBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png',  #input path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
+         '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output.jpg')  
+comparedBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png', #input path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/labels/test_1.csv', #true label path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output with true.jpg')  
+
+
+'''
+
+
+
+

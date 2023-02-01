@@ -2,8 +2,10 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 import os
-from gui import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
+from gui_helper import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
+from visualisation import atomBound, boundBox, comparedBox
 import pandas as pd
+import shutil
 import csv
 
 class App(tk.Tk):
@@ -82,7 +84,7 @@ class App(tk.Tk):
             import_df = pd.DataFrame.from_dict(files)
             
             if os.path.exists(locations_folder):
-                locations_folder, files = check_location_folder(locations_folder)
+                locations_folder, files = check_location_folder(images_folder, locations_folder)
                 if locations_folder != "locations":
                     tk.messagebox.showerror('Error', locations_folder)
                 
@@ -139,6 +141,59 @@ class App(tk.Tk):
         }
         
         
+        
+        # passing the parameters to the model, creating a detection folder into the user selected output directory
+        #os.mkdir(settings['Output'] + '/' + 'detections')
+        
+        # seperate imported image directories
+        image_dirs = []
+        image_ids = []
+        with open('import_data.csv', 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            # skip the header row
+            next(reader)
+            for row in reader:
+                # append the second column (image directory path) to the list
+                image_dirs.append(row[1])
+                image_ids.append(row[0])
+        
+        # when the user want original input images
+        if settings['Options'][0]:
+            os.mkdir(settings['Output'] + '/' + 'Original images')
+    
+            for image_dir in image_dirs:
+                # get the filename from the directory path
+                filename = os.path.basename(image_dir)
+                
+                # construct the output path
+                output_path = os.path.join(settings['Output'] + '/' + 'Original images', filename)
+                
+                # copy the image to the output folder
+                shutil.copy(image_dir, output_path)
+            
+        # when the user want the bounding box for the detections only   
+        elif settings['Options'][1]:
+            os.mkdir(settings['Output'] + '/' + 'Images with detected bounding boxes')
+            for image_dir in image_dirs:
+                boundBox(image_dir, settings['Output'] + '/' + 'detections', )
+                
+
+        elif settings['Options'][2]:
+            pass
+        elif settings['Options'][1]:
+            pass
+        elif settings['Options'][1]:
+            pass
+
+            
+            
+        
+        
+        
+        
+        
+        
+        '''
         with open('settings.csv', 'w', newline='') as csvfile:
             # Creating a writer object
             writer = csv.DictWriter(csvfile, fieldnames=settings.keys())
@@ -148,6 +203,9 @@ class App(tk.Tk):
 
             # Writing data row
             writer.writerow(settings)
+        '''
+        
+            
             
         # setting_df = pd.DataFrame.from_dict(settings)
         # setting_df.to_csv('settings.csv', index=False)
