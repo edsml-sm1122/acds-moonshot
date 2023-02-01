@@ -123,6 +123,37 @@ class App(tk.Tk):
             
             return import_df
 
+
+    def extract_df_columns(self, path):
+
+        dirs = []
+        ids = []
+
+        with open(path, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)
+            for row in reader:
+                # append the second column (image directory path) to the list
+                dirs.append(row[1])
+                ids.append(row[0].split(".")[0])
+
+        return dirs, ids
+
+    def original_image(self, settings, image_dirs):
+
+        if settings['Options'][0]:
+            os.mkdir(settings['Output'] + '/' + 'Original images')
+    
+            for image_dir in image_dirs:
+                # get the filename from the directory path
+                filename = os.path.basename(image_dir)
+                
+                # construct the output path
+                output_path = os.path.join(settings['Output'] + '/' + 'Original images' + '/', filename)
+                
+                # copy the image to the output folder
+                shutil.copy(image_dir, output_path)
+
     def submit_functions(self):
         
         dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
@@ -143,37 +174,12 @@ class App(tk.Tk):
         # passing the parameters to the model, creating a detection folder into the user selected output directory
         #os.mkdir(settings['Output'] + '/' + 'detections')
         
-        # separate imported image directories
-        image_dirs = []
-        image_ids = []
-
-        with open('import_data.csv', 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            # skip the header row
-            next(reader)
-            for row in reader:
-                # append the second column (image directory path) to the list
-                image_dirs.append(row[1])
-                image_ids.append(row[0].split(".")[0])
+        image_dirs, image_ids = self.extract_df_columns('import_data.csv')
         
-        print(image_ids)
-        
-        # when the user want original input images
-        if settings['Options'][0]:
-            os.mkdir(settings['Output'] + '/' + 'Original images')
-    
-            for image_dir in image_dirs:
-                # get the filename from the directory path
-                filename = os.path.basename(image_dir)
-                
-                # construct the output path
-                output_path = os.path.join(settings['Output'] + '/' + 'Original images' + '/', filename)
-                
-                # copy the image to the output folder
-                shutil.copy(image_dir, output_path)
+        self.original_image(settings, image_dirs)
             
         # when the user want the bounding box for the detections only   
-        elif settings['Options'][1]:
+        if settings['Options'][1]:
             print('this is processed successfully')
             os.mkdir(settings['Output'] + '/' + 'Images with detected bounding boxes')
             for i in range(len(image_ids)):
