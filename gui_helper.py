@@ -131,6 +131,7 @@ def check_file_names(folder_1, folder_2):
     else:
         return True
 
+
 def check_label_folder(image_folder, label_folder):
     """
         Checks that the label_folder only contains csv files.
