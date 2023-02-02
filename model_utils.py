@@ -69,8 +69,8 @@ class MyModel(DataManager):
       fig, ax = plt.subplots(figsize=(15, 15))
       ax.imshow(_)
 
-    def get_predicted_labels_for_images(self, dir_images, planet, output, img_sizes):
-   
+    def get_predicted_labels_for_images(self, dir_images, planet, output=False):
+      
       if planet == 'mars':
         destination = os.path.join(output, 'detections')
         self.delete_if_exists(path_name = destination)
@@ -78,25 +78,29 @@ class MyModel(DataManager):
 
         pt = f'weights/{planet}_best.pt'
         
-        self.predict(best_w=pt, img_size=img_sizes[0], conf=0.4, dir_predictions=dir_images)       
+        self.predict(best_w=pt, img_size=416, conf=0.4, dir_predictions=dir_images)       
         basepath = self.get_latest_prediction()
         
         self.convert_txt_to_csv(basepath, destination)    
         
       elif planet == 'moon':
-          for i,size in enumerate(['small','medium','large']):
-            destination = os.path.join(output,f'{size}_detections')
-            
-            self.delete_if_exists(path_name = destination)
-            self.create_dir(path_name = destination)
-            
-            pt = f'weights/{planet}_{size}_best.pt'
-            
-            self.predict(best_w=pt, img_size=img_sizes[i], conf=0.4, dir_predictions=dir_images)
-            basepath = self.get_latest_prediction()
-            print(destination)
-            self.convert_txt_to_csv(basepath, destination)    
-        
+        #process dir_images location to derive image size and location
+        loc = dir_images.split('/')[-1]
+        model_type, img_size = loc.split('_')
+        print(model_type, img_size)
+
+        destination = f'{dir_images}_detections'
+
+        self.delete_if_exists(path_name = destination)
+        self.create_dir(path_name = destination)
+
+        pt = f'weights/{planet}_{model_type}_best.pt'
+
+        self.predict(best_w=pt, img_size=img_size, conf=0.4, dir_predictions=dir_images)
+        basepath = self.get_latest_prediction()
+        print(destination)
+        self.convert_txt_to_csv(basepath, destination)    
+
       return 0
 
     def get_latest_prediction(self):
