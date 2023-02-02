@@ -104,3 +104,39 @@ class MyModel(DataManager):
 
     def get_predicted_labels(self,which_run='exp10'):
       return os.path.join(self.model_dir,f'runs/detect/{which_run}/labels/')
+    
+    
+    
+def bigimgpix2cellpix(img,res,remain=False): 
+    '''Crop image to cells.
+    
+    Parameters
+    ----------
+    img : np.array
+        cropped image
+    res : int
+        the size of the cell cropped into (suqare cell)
+    remain : bool
+        Whether keep the residuals. As the image shape not necessarily times of res.
+        
+    Returns
+    -------
+    tiles : list of np.array
+        the cells
+    indexes: list of tuple
+        the (row, col) that each cell lies, relative to the original image.
+    '''        
+    shape=img.T.shape
+
+    if remain:
+         cell_x,cell_y = math.ceil(shape[0]/res) , math.ceil(shape[1]/res) 
+    else:
+        cell_x,cell_y = shape[0]//res, shape[1]//res
+        
+    
+    indexes = [(i,j) for i in range(0,cell_y * res,res) for j in range(0,cell_x * res,res)]# first rightward, then downward
+    tiles = [img[i:i+res,j:j+res] for i in range(0,cell_y * res,res) for j in range(0,cell_x * res,res)]# first rightward, then downward
+    
+    return tiles,indexes
+  
+  

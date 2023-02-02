@@ -349,6 +349,7 @@ class App(tk.Tk):
                     tk.messagebox.showerror("Error", "'original images' folder already exists")
 
             output_path = os.path.join(settings['Output'] + '/images/' + 'original images')
+            image_dirs = image_dirs.replace('\ ', ' ')
             copy_tree(str(image_dirs), str(output_path))
 
 
@@ -473,7 +474,7 @@ class App(tk.Tk):
                              csv_exist)
 
 
-    def performance_matrix(self, settings, image_ids, label_dirs, IoU):
+    def performance_matrix(self, settings, image_ids, label_dirs, IoU, label_folder_path):
         """
         This method is called in the submit_functions() method, below.
         
@@ -510,14 +511,17 @@ class App(tk.Tk):
                     tk.messagebox.showerror("Error", "statistics folder already exists")
                 for i in range(len(image_ids)):
                     
+                    input_csv = os.path.join(label_folder_path, image_ids[i] + '.csv')
+                    input_csv = input_csv.replace('\ ', ' ')
                     csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
                 
                     csv_exist = False
                     if os.path.isfile(csv_path):
                         csv_exist = True
+                    print(csv_path, label_dirs[i])
                     nTP, nFP, nFN = tripleStatic( 
                              csv_path,
-                             label_dirs[i],
+                             input_csv,
                              float(IoU), 
                              csv_exist)
                     TP += nTP
@@ -611,7 +615,7 @@ class App(tk.Tk):
         self.original_images(settings, images_path)
         self.bounding_boxes(settings, image_dirs, image_ids)
         self.gd_truth_bounding_boxes(settings, image_dirs, image_ids, label_dirs, label_folder_path)
-        self.performance_matrix(settings, image_ids, label_dirs, settings['IoU'])
+        self.performance_matrix(settings, image_ids, label_dirs, settings['IoU'], label_folder_path)
 
         tk.messagebox.showinfo("Success",  "Successfully exported!")    
 

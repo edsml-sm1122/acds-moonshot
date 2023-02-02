@@ -43,13 +43,13 @@ def tripleStatic(bbpath, tbpath, threshold=0.5, csv_exist = True):
       temiouPeak = 0
       for o in range(0, len(crtT)):
         temiou = iouCal(crtP[i][0], crtP[i][1], crtT[o][0], crtT[o][1], crtP[i][2], crtP[i][3], crtT[o][2], crtT[o][3])
+
         if temiou >= temiouPeak:
           temiouPeak = temiou
       if temiouPeak >= threshold:
         TP = TP + 1
       else:
         FP = FP + 1
-
   FN = len(crtT) - TP
   #triOut = [[TP, FP, FN]]
   #triName=['TP','FP','FN']
