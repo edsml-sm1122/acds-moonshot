@@ -12,31 +12,36 @@ from PIL import Image, ImageDraw
 
 
 
-def atomBound(imgpath, bbpath):
+def atomBound(imgpath, bbpath, csv_exist=True):
   # output rected img to a folder
   rawimg = Image.open(imgpath)
   rawimg = rawimg.convert("RGB")
   postimg = ImageDraw.ImageDraw(rawimg)
   w,h = rawimg.size
-  with open(bbpath) as bboxloc:
-    reader = csv.reader(bboxloc)
-    for i, rows in enumerate(reader):
-        postimg.rectangle(((float(rows[0])*w - float(rows[2])*w/2, float(rows[1])*h - 
-                                       float(rows[3])*h/2), (float(rows[0])*w + float(rows[2])*w/2, float(rows[1])*h + float(rows[3])*h/2)), fill=None, outline='red', width=1)
   
+  if csv_exist == True:
+    with open(bbpath) as bboxloc:
+      reader = csv.reader(bboxloc)
+      for i, rows in enumerate(reader):
+          postimg.rectangle(((float(rows[0])*w - float(rows[2])*w/2, float(rows[1])*h - 
+                                        float(rows[3])*h/2), (float(rows[0])*w + float(rows[2])*w/2, float(rows[1])*h + float(rows[3])*h/2)), fill=None, outline='red', width=1)
+    
   return rawimg, postimg
 
 
-def boundBox(imgpath, bbpath, outpath):
-  rawimg, postimg = atomBound(imgpath, bbpath)
+def boundBox(imgpath, bbpath, outpath, csv_exist):
+  rawimg, postimg = atomBound(imgpath, bbpath, csv_exist)
   rawimg.save(outpath)
   #display(rawimg)
 
 
-def comparedBox(imgpath, bbpath, tbpath, outpath):
+def comparedBox(imgpath, bbpath, tbpath, outpath, csv_exist):
   # output rected img to a folder
-  rawimg, postimg = atomBound(imgpath, bbpath)
-  w,h = rawimg.size
+  rawimg, postimg = atomBound(imgpath, bbpath, csv_exist)
+  w,h = rawimg.size 
+  
+  print('tbpath================================================================')
+  print(tbpath)
   with open(tbpath) as tboxloc:
     reader = csv.reader(tboxloc)
     for i, rows in enumerate(reader):

@@ -386,12 +386,25 @@ class App(tk.Tk):
             for i in range(len(image_ids)):
                 filename = os.path.basename(image_dirs[i])
                 output_path = os.path.join(settings['Output'] + '/images/' + 'bounding boxes' + '/', filename)
+                
+                csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
+                
+                csv_exist = False
+                if os.path.isfile(csv_path):
+                    csv_exist = True
+
+                    
                 boundBox(image_dirs[i], 
-                         settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
-                         output_path)
+                        csv_path,
+                        output_path,
+                        csv_exist)
+
+                
+                
+                
 
 
-    def gd_truth_bounding_boxes(self, settings, image_dirs, image_ids, label_dirs):
+    def gd_truth_bounding_boxes(self, settings, image_dirs, image_ids, label_dirs, label_folder_path):
         """
         This method is called in the submit_functions() method, below.
         
@@ -425,13 +438,39 @@ class App(tk.Tk):
                 except FileExistsError:
                     tk.messagebox.showerror("Error", "'bounding boxes (with ground truth)' folder already exists")
                     
+                    
+                    
+                
+                
                 for i in range(len(image_ids)):
                     filename = os.path.basename(image_dirs[i])
                     output_path = os.path.join(settings['Output'] + '/images/' + 'bounding boxes (with ground truth)' + '/', filename)
+                    csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
+                    input_csv = os.path.join(label_folder_path, image_ids[i] + '.csv')
+                    input_csv = input_csv.replace('\ ', ' ')
+                    print('this is input_csv ===============')
+                    print(input_csv)
+                    csv_exist = False
+                    print('this is csv_path ===============')
+                    print(csv_path)
+                    
+                    
+                    print('previous success ===============')
+                    print(label_dirs[i])
+
+                    print('this is image_dirs ===============')
+                    print(image_dirs[i])
+                    
+                    
+                    
+                    if os.path.isfile(csv_path):
+                        csv_exist = True
+                        
                     comparedBox(image_dirs[i], 
-                             settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
-                             label_dirs[i],
-                             output_path)
+                             csv_path,
+                             input_csv,
+                             output_path,
+                             csv_exist)
 
 
     def performance_matrix(self, settings, image_ids, label_dirs, IoU):
@@ -470,10 +509,17 @@ class App(tk.Tk):
                 except FileExistsError:
                     tk.messagebox.showerror("Error", "statistics folder already exists")
                 for i in range(len(image_ids)):
+                    
+                    csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
+                
+                    csv_exist = False
+                    if os.path.isfile(csv_path):
+                        csv_exist = True
                     nTP, nFP, nFN = tripleStatic( 
-                             settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv',
+                             csv_path,
                              label_dirs[i],
-                             threshold = float(IoU))
+                             float(IoU), 
+                             csv_exist)
                     TP += nTP
                     FP += nFP
                     FN += nFN
@@ -518,13 +564,19 @@ class App(tk.Tk):
 
         images_path = self.import_df['folder_path'][0] + '/images/'
         images_path = images_path.replace(' ', '\ ')
+        label_folder_path = 0
+        if self.label_added:
+            label_folder_path = self.import_df['folder_path'][0] + '/labels/'
+            label_folder_path = label_folder_path.replace(' ', '\ ')
+        
         settings = {
             'Planet': self.planet_selected.get(),
             'IoU': self.IoU_entry.get(),
             'ImageSize': self.image_size_entry.get(),
             'Options': self.selected_checkboxes,
             'Output': dir_path,
-            'Input_path': images_path
+            'Input_path': images_path,
+            'Input_label_path': label_folder_path
         }
         
         
@@ -540,9 +592,12 @@ class App(tk.Tk):
                                               settings['Output'])
         
         
+        
+        
         # getting path information (for the images and labels) located in the self.import_df attribute
         image_dirs = self.import_df['path'].values.tolist()
         image_ids = (self.import_df['name'].map(lambda x: x.split(".")[0])).values.tolist()
+        label_dirs = 0
         if self.label_added:
             label_dirs = self.import_df['labels'].values.tolist()
             
@@ -555,7 +610,7 @@ class App(tk.Tk):
         # filling subdirectories
         self.original_images(settings, images_path)
         self.bounding_boxes(settings, image_dirs, image_ids)
-        self.gd_truth_bounding_boxes(settings, image_dirs, image_ids, label_dirs)
+        self.gd_truth_bounding_boxes(settings, image_dirs, image_ids, label_dirs, label_folder_path)
         self.performance_matrix(settings, image_ids, label_dirs, settings['IoU'])
 
         tk.messagebox.showinfo("Success",  "Successfully exported!")    
