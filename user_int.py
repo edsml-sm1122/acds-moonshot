@@ -517,7 +517,7 @@ class App(tk.Tk):
         dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
 
         images_path = self.import_df['folder_path'][0] + '/images/'
-
+        images_path = images_path.replace(' ', '\ ')
         settings = {
             'Planet': self.planet_selected.get(),
             'IoU': self.IoU_entry.get(),
@@ -534,6 +534,7 @@ class App(tk.Tk):
         
         # Calling the models, with the input images directory
         model = MyModel(model_dir='model') 
+
         model.get_predicted_labels_for_images(settings['Input_path'], 
                                               settings['Planet'], 
                                               settings['Output'])
