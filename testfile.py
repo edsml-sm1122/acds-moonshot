@@ -66,6 +66,14 @@ def test_check_image_folder():
     goal2 = 0.8337628845764702
     assert np.isclose(goal2, res2).all()
 
+def test_tripleStatic():
+    bbpath = 'Archive/test export folder/detections/test1.csv'
+    tbpath = 'Archive/test export folder/detections/test4.csv'
+    res = tripleStatic(bbpath, tbpath, threshold=0.5)
+    goal = (0, 5, 3)
+    assert np.isclose(res, goal).all()
+    
+
     
 
 
