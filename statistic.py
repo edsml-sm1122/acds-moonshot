@@ -1,4 +1,3 @@
-
 import os
 from os import listdir
 import shutil
@@ -56,5 +55,3 @@ def tripleStatic(bbpath, tbpath, threshold=0.5):
   #triCsv=pd.DataFrame(columns=triName,data=triOut)
   #triCsv.to_csv(outpath, index=False)
   return TP, FP, FN
-
-

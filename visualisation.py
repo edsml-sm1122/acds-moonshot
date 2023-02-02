@@ -47,7 +47,6 @@ def comparedBox(imgpath, bbpath, tbpath, outpath):
 
 
 '''
-
 boundBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png',  #input path
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
          '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output.jpg')  
@@ -55,10 +54,5 @@ comparedBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperica
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/labels/test_1.csv', #true label path
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output with true.jpg')  
-
-
 '''
-
-
-
 
