@@ -35,10 +35,6 @@ Once the input folder location has been selected, the image names will be listed
 
 
 
-## Friday test data result
-
-https://drive.google.com/drive/folders/12HHsd_k0fbFxMQHH1ynA9QLiY4sf0Pxj?usp=sharing
-
 <img src=image_1.png width="300"/>
 
 #### 3) Optional:
@@ -100,3 +96,10 @@ A dummy directory and test data was created to run the tests.
 - Locher Valerie
 - Mu Sitong
 - Zhu Boxuan
+
+
+
+
+## Friday test data result
+
+https://drive.google.com/drive/folders/12HHsd_k0fbFxMQHH1ynA9QLiY4sf0Pxj?usp=sharing
