@@ -87,6 +87,8 @@ def to_coords(imgpath, lat, lon, bbpath, R, image_scale):
     This function is called in ...
     
     '''
+
+      
     crtP = []
     rawimg = Image.open(imgpath)
     imgW,imgH = rawimg.size
@@ -100,3 +102,60 @@ def to_coords(imgpath, lat, lon, bbpath, R, image_scale):
     with open(bbpath, 'w', newline='') as file:
       writer = csv.writer(file)
       writer.writerows(crtP)
+      
+      
+      
+import shlex
+import os
+
+
+imgs_path = '/Users/dl1122/Downloads/Archive/data/images'
+
+bbspath = '/Users/dl1122/Downloads/Archive/test\ export\ folder/detections'
+bbspath = shlex.split(bbspath)[0]
+
+
+loc_path = '/Users/dl1122/Downloads/Archive/data/locations'
+
+
+
+
+def add_loc_all_detected_csv(bbspath,imgs_path,loc_path,image_scale = 100, planet = 'mars'):
+  
+  if planet == 'mars':
+    R = 3389.5
+  else:
+    R = 1737.4
+  
+  # get a list of files in the directory
+  detected_files = os.listdir(bbspath)
+  # iterate through each file
+  for each_csv in detected_files:
+      # get the full path of the file
+      file_path = os.path.join(bbspath, each_csv)
+      # check if the path is a file
+      if os.path.isfile(file_path) and each_csv.endswith(".csv"):
+        image_title = os.path.splitext(each_csv)[0]
+        
+        #location file path
+        loc_file_path = os.path.join(loc_path, image_title +'.csv')
+
+        #image file path
+        for file in os.listdir(imgs_path):
+          if file.startswith(image_title) and (file.endswith(".png") or file.endswith(".jpg") or file.endswith(".tif")):
+              img_file_path = os.path.join(imgs_path, file)                             
+
+        with open(loc_file_path, 'r') as file:
+          reader = csv.reader(file)
+          for row in reader:
+              latitude = float(row[0])
+              longitude = float(row[1])
+        to_coords(img_file_path, latitude, longitude, file_path,100,R)
+        
+        
+#add_loc_all_detected_csv(bbspath, imgs_path, loc_path)
+              
+        
+        
+
+
