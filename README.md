@@ -31,8 +31,8 @@ Once the input folder location has been selected, the image names will be listed
 <img src=image_1.png width="300"/>
 
 #### 3) Optional:
-- Input box 1: Add information about image resolution in metres per pixel (m/px). The default is 100 m/px.
-- Input box 2: Add information about IoU threshold. The default is 0.5.
+- `Input box 1`: Add information about image resolution in metres per pixel (m/px). The default is 100 m/px.
+- `Input box 2`: Add information about IoU threshold. The default is 0.5.
 
 #### 4) Tick the desired output settings. 
 Depending on the ticked boxes, the software will output:
