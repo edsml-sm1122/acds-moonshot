@@ -1,0 +1,14 @@
+ipython
+jupyter
+numpy
+scipy
+matplotlib
+jupyter-book
+sphinx
+pandas
+pybryt
+pytest
+os
+gui_helper
+convert_tool
+statistic
