@@ -62,7 +62,7 @@ the image as detected by the tool.
 2) `performance matrix`
 
 Example output directories:
-<img src=image_2.png width="500"/>
+<img src=image_2.png width="700"/>
 
 ## Tests:
 
