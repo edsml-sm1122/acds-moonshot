@@ -28,7 +28,7 @@ Optional subdirectories in the input folder:
 
 Once the input folder location has been selected, the image names will be listed on the GUI window (see example below). 
 
-<img src=image_1.png width="500"/>
+<img src=image_1.png width="300"/>
 
 3) Optional:
 - Input box 1: Add information about image resolution in metres per pixel (m/px). The default is 100 m/px.
@@ -58,7 +58,7 @@ the image as detected by the tool.
 2) `performance matrix`
 
 Example output directories:
-![image_2](image_2.png)
+<img src=image_2.png width="300"/>
 
 ## Tests:
 
