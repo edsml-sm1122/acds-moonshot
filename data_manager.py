@@ -8,7 +8,17 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 class DataManager:
+  """Main data Handler class
+  """
   def __init__(self, root_dir='', data_dir='data', data_key={'i':'images','l':'labels'} ,dataset_dir = 'dataset'):
+    """Class constructor
+
+    Args:
+        root_dir (str, optional): root location of the module. Defaults to ''.
+        data_dir (str, optional): data folder with raw data . Defaults to 'data'.
+        data_key (dict, optional): standard setup for yolo. Defaults to {'i':'images','l':'labels'}.
+        dataset_dir (str, optional): where to store processed data. Defaults to 'dataset'.
+    """
     self.root_dir    = root_dir
     self.data_dir    = os.path.join(self.root_dir, data_dir)
     self.data_key    = data_key
@@ -22,8 +32,18 @@ class DataManager:
                                    leaves=['images','labels'], 
                                    model_dirs = ['train','val', 'test'], 
                                    predictions=False):
-    
-    #set the structure for future use
+    """Created folder structure for filling up with data
+
+    Args:
+        delete (bool, optional): do we want to delete dataset folder and recreate from scratch. Defaults to True.
+        leaves (list, optional): Yolo standard structure. Defaults to ['images','labels'].
+        model_dirs (list, optional): training set split folders. Defaults to ['train','val', 'test'].
+        predictions (bool, optional): optional folder to store images for inference - we are not using this atm. Defaults to False.
+
+    Returns:
+        int: 0 on success
+    """
+    #placeholders for future use
     self.leaves = leaves
     self.model_dirs = model_dirs
 
@@ -62,6 +82,14 @@ class DataManager:
     return 0
     
   def delete_if_exists(self, path_name):
+    """Deletes file or directory 
+
+    Args:
+        path_name (str): location
+
+    Returns:
+        int: 0 on success
+    """
     if os.path.exists(path_name):
       if os.path.isdir(path_name):
         try: 
@@ -76,6 +104,14 @@ class DataManager:
     return 0
   
   def create_dir(self,path_name):
+    """creates a new dir
+
+    Args:
+        path_name (str): location
+
+    Returns:
+        int: 0 on success
+    """
     try: 
       os.mkdir(path_name) 
     except OSError as error: 
@@ -83,6 +119,11 @@ class DataManager:
     return 0
     
   def convert_csv_to_txt(self):
+    """used to convert csv to txt while copying the data. Yolo expects txt file with lables and classes specified
+
+    Returns:
+        int: return 0 on success
+    """
 
     # we need to convert csv to txt for lables
     for _ in self.model_dirs:
@@ -104,6 +145,15 @@ class DataManager:
     return 0
 
   def convert_txt_to_csv(self, basepath, destination):
+    """convert txt file back to csv file and strip 
+
+    Args:
+        basepath (str): location of origin
+        destination (str): destination
+
+    Returns:
+        int: return 0 on success
+    """
     os.listdir(basepath)
     for lbl in os.listdir(basepath):
       coords = pd.read_csv(os.path.join(basepath,lbl),header=None,index_col=None, sep = " ")
@@ -115,6 +165,19 @@ class DataManager:
     return 0 
 
   def split_for_model(self, model_chunks={'train':0.7,'val':0.7,'test':0.3},data_aug=False):
+    """Generate model training validation and test sets
+
+    Args:
+        model_chunks (dict, optional): Proportion of the split. Defaults to {'train':0.7,'val':0.7,'test':0.3}.
+        data_aug (bool, optional): if we want to play around with the data - this is a potention extension to the model. Defaults to False.
+
+    Raises:
+        Exception: if from structure doesn't match to structure, e.g.: images+lables vs images+lables
+        Exception: _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     if(len(self.model_dirs)!=len(model_chunks)):
        raise Exception(f"Dataset folders don't match requested split {self.model_dirs} vs {model_chunks}")
