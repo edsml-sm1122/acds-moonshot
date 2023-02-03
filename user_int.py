@@ -664,7 +664,9 @@ class App(tk.Tk):
         if self.location_added: 
             add_loc_all_detected_csv(os.path.join(settings['Output'], 'detections'), 
                                      self.images_folder, 
-                                     self.locations_folder)
+                                     self.locations_folder,
+                                     float(settings['Image_size']),
+                                     settings['Planet'])
             print('heall yeah################################################################')
             
         
