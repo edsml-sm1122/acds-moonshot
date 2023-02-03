@@ -8,13 +8,13 @@ be used for dating.
 
 ## User Manual:
 
-1) To run the software tool, type the following command in the terminal:
+### 1) To run the software tool, type the following command in the terminal:
 
 >> python3 user_int.py
 
 A GUI window will appear on the screen. 
 
-2) Click on the 'Import Folder' button and select an input folder location.
+### 2) Click on the 'Import Folder' button and select an input folder location.
 The input folder should contain a subdirectory `images/` that contains a single image, or multiple images.
 The accepted image formats are: .png, .jpg, .tif.
 
@@ -30,11 +30,11 @@ Once the input folder location has been selected, the image names will be listed
 
 <img src=image_1.png width="300"/>
 
-3) Optional:
+### 3) Optional:
 - Input box 1: Add information about image resolution in metres per pixel (m/px). The default is 100 m/px.
 - Input box 2: Add information about IoU threshold. The default is 0.5.
 
-4) Tick the desired output settings. 
+### 4) Tick the desired output settings. 
 Depending on the ticked boxes, the software will output:
 - `original_images`: the original image files.
 - `bounding_boxes`: a .png file for each input image that shows the bounding boxes of the craters detected by the CDM. Note: this option is always ticked and disabled because, by default, the software always outputs a list of all the bounding boxes for craters detected in each image.
@@ -42,7 +42,7 @@ Depending on the ticked boxes, the software will output:
 - `size-frequency dist`: a plot for each input image comparing the ground truth bounding boxes and the model detection bounding boxes. Note: this option can only be selected when the Moon planet has been selected.
 - `performance matrix`: a .csv file for each input image that summarises the True Positive, False Positive and False Negative detections in the image. Note: this option can only be selected when ground-truth labels have been provided.
 
-5) Press submit to run the software. You will be prompted to create an output Directory (with a user-specified name).
+### 5) Press submit to run the software. You will be prompted to create an output Directory (with a user-specified name).
 The program might take long to run. Be patient. 
 A pop-up message will appear when the software tool has finished running.
 
