@@ -8,7 +8,8 @@ def remove_ds_store(file_list):
     """
         Removes strings that contain the substring '.DS_Store'.
 
-        This function is used in the import_folder() method (see user_int.py).
+        This function is used in the import_images(), import_locations(), and import_labels() methods 
+        (see user_int.py).
         It is also used in the check_file_names(folder_1, folder_2) function below.
 
         Parameters
@@ -29,7 +30,7 @@ def check_image_folder(image_folder):
         Checks that the images in the subdirectory are of an appropriate format (accepts only .jpg, .png, .tif).
         If no errors are found, appends the name and path of the images to a dictionary, and returns the dictionary.
 
-        This function is used in the import_folder() method (see user_int.py).
+        This function is used in the import_images() method (see user_int.py).
 
         Parameters
         ----------
@@ -139,7 +140,7 @@ def check_label_folder(image_folder, label_folder):
         Checks that the names of the csv files match the names of the images in the image_folder.
         If no errors are found, appends the path of the csv files from the label_folder to a list and returns the list.
 
-        This function is used in the import_folder() method (see user_int.py).
+        This function is used in the import_labels() method (see user_int.py).
 
         Parameters
         ----------
@@ -183,7 +184,7 @@ def check_location_folder(image_folder, location_folder):
         
         If no errors are found, appends the latitude and longitude infromation from the csv files to a dictionary, and returns the dictionary.
 
-        This function is used in the import_folder() method (see user_int.py).
+        This function is used in the import_locations() method (see user_int.py).
 
         Parameters
         ----------
