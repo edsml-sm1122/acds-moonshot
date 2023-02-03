@@ -88,4 +88,4 @@ A dummy directory and test data was created to run the tests.
 - Li Yongqi
 - Locher Valerie
 - Mu Sitong
-- Zhao Janice Zhao
+- Zhu Boxuan
