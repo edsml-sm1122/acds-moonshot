@@ -72,11 +72,11 @@ Example output directories:
 
 #### Xenophanes
 
-Luo Dingo
-De Schutter Alice
-Lin Qicheng
-Turetskaya Olga
-Li Yongqi
-Locher Valerie
-Mu Sitong
-Zhao Janice Zhao
+- Luo Dingo
+- De Schutter Alice
+- Lin Qicheng
+- Turetskaya Olga
+- Li Yongqi
+- Locher Valerie
+- Mu Sitong
+- Zhao Janice Zhao
