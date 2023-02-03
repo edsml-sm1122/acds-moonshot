@@ -66,7 +66,9 @@ Example output directories:
 
 ## Tests:
 
-...
+Run the following command in the terminal:
+
+>> Pytest testfile.py
 
 ## Team:
 
