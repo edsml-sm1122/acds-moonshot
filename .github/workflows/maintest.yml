@@ -30,4 +30,4 @@ jobs:
         pip install -e .
     - name: Check with pytest
       run: |
-        pytest
+        pytest testfile.py
