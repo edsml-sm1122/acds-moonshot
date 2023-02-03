@@ -13,7 +13,7 @@ from gui_helper import check_label_folder, check_image_folder, check_location_fo
 from visualisation import boundBox, comparedBox, to_coords, add_loc_all_detected_csv
 from data_manager import DataManager
 from model_utils import MyModel, bigimgpix2cellpix, crop, convert_function, output_combined_csv
-from statistic import tripleStatic
+from statistic import tripleStatic, plot_frequency_distribution
 import pandas as pd
 import shutil
 import csv
@@ -412,9 +412,7 @@ class App(tk.Tk):
                         output_path,
                         csv_exist)
 
-                
-                
-                
+
 
 
     def gd_truth_bounding_boxes(self, settings, image_dirs, image_ids, label_dirs, label_folder_path):
@@ -485,6 +483,54 @@ class App(tk.Tk):
                              output_path,
                              csv_exist)
 
+    
+    
+        #self.plot_sf_distribution(settings, image_dirs, image_ids)
+    # def plot_frequency_distribution(imgpath, bbpath, R, image_scale, outpath, tbpath = 'None'):   
+
+                
+    def plot_sf_distribution(self, settings, image_dirs, image_ids, labels_added):
+        #when the option is ticked
+        if settings['Options'][3]:
+            if settings['Planet'] == 'moon':
+                try:
+                    os.mkdir(settings['Output'] + '/size frequency distribution/')
+                except FileExistsError:
+                    tk.messagebox.showerror("Error", "'size frequency distribution' folder already exists")
+                
+                for i in range(len(image_ids)):
+                    filename = os.path.basename(image_dirs[i])
+                    print('this is file name sssssssssssssssssssssssssssssssssssssssssssss')
+                    print(filename)
+                    output_path = os.path.join(settings['Output'] + '/size frequency distribution/' , filename)
+                    
+                    print('this is outputpath name sssssssssssssssssssssssssssssssssssssssssssss')
+                    print(output_path)
+                    csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
+
+                    
+                    if labels_added:
+                        plot_frequency_distribution(image_dirs[i], 
+                                                    csv_path, 
+                                                    3474.8, 
+                                                    float(settings['Image_size']), 
+                                                    output_path, 
+                                                    self.labels_folder)
+                    
+                    else:
+                        plot_frequency_distribution(image_dirs[i], 
+                                                    csv_path, 
+                                                    3474.8, 
+                                                    float(settings['Image_size']), 
+                                                    output_path, 
+                                                    tbpath = 'None')
+
+
+                
+                
+                
+        
+            
     
 
     def performance_matrix(self, settings, image_ids, label_dirs, IoU, label_folder_path):
@@ -695,6 +741,7 @@ class App(tk.Tk):
         self.original_images(settings, images_path)
         self.bounding_boxes(settings, image_dirs, image_ids)
         self.gd_truth_bounding_boxes(settings, image_dirs, image_ids, label_dirs, label_folder_path)
+        self.plot_sf_distribution(settings, image_dirs, image_ids, self.label_added)
         self.performance_matrix(settings, image_ids, label_dirs, settings['IoU'], label_folder_path)
 
         tk.messagebox.showinfo("Success",  "Successfully exported!")    
