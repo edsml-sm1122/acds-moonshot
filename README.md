@@ -70,6 +70,13 @@ Run the following command in the terminal:
 
 >> Pytest testfile.py
 
+Pytests have been created for the following files:
+- gui_helper.py
+- convert.py
+- statistic.py
+
+A dummy directory and test data was create to run the tests.
+
 ## Team:
 
 #### Xenophanes
