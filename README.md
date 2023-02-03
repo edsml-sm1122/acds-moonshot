@@ -57,11 +57,11 @@ the image as detected by the tool.
 1) `original images/`
 2) `bounding boxes/`
 3) `bounding boxes (with ground truth)/`
-- A subdirectory `statistics/`, which may contain two different subdirectories:
-1) `size-frequency dist`
-2) `performance matrix`
+- A subdirectory `statistics/` (containing the True Positive, False Positive and False Negative information)
+- A subdirectory `size-frequency dist/`
 
 Example output directories:
+
 <img src=image_2.png width="700"/>
 
 ## Tests:
