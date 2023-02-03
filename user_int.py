@@ -12,7 +12,7 @@ from distutils.dir_util import copy_tree
 from gui_helper import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
 from visualisation import boundBox, comparedBox, to_coords, add_loc_all_detected_csv
 from data_manager import DataManager
-from model_utils import MyModel, bigimgpix2cellpix, crop, convert_function, output_combined_csv
+from model_utils import MyModel, crop, convert_function, output_combined_csv
 from statistic import tripleStatic, plot_frequency_distribution
 import pandas as pd
 import shutil
