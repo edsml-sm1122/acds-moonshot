@@ -1,4 +1,5 @@
-"""This module is used for the modelling (see the model_utils Module)."""
+"""This module is used for the modelling (see the model_utils module)."""
+
 import os
 from os import listdir
 import shutil
