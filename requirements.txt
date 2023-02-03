@@ -8,7 +8,6 @@ sphinx
 pandas
 pybryt
 pytest
-os
 gui_helper
 convert_tool
 statistic
