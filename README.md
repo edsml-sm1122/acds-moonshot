@@ -70,4 +70,13 @@ Example output directories:
 
 ## Team:
 
-...
+#### Xenophanes
+
+Luo Dingo
+De Schutter Alice
+Lin Qicheng
+Turetskaya Olga
+Li Yongqi
+Locher Valerie
+Mu Sitong
+Zhao Janice Zhao
