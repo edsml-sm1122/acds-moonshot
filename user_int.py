@@ -10,7 +10,7 @@ import shlex, subprocess
 from distutils.dir_util import copy_tree
 
 from gui_helper import check_label_folder, check_image_folder, check_location_folder, remove_ds_store
-from visualisation import boundBox, comparedBox, to_coords
+from visualisation import boundBox, comparedBox, to_coords, add_loc_all_detected_csv
 from data_manager import DataManager
 from model_utils import MyModel, bigimgpix2cellpix, crop, convert_function, output_combined_csv
 from statistic import tripleStatic
@@ -75,6 +75,12 @@ class App(tk.Tk):
         self.import_df = pd.DataFrame()
         self.label_added = False
         self.location_added = False
+        
+        self.images_folder = False
+        self.labels_folder = False
+        self.locations_folder = False
+        self.output_folder = False
+
 
         # Import button
         self.import_btn = ttk.Button(text="Import Folder", command=self.import_folder)
@@ -195,15 +201,15 @@ class App(tk.Tk):
         folder_path = tk.filedialog.askdirectory()
 
         if folder_path:
-            images_folder = os.path.join(folder_path, "images")
-            labels_folder = os.path.join(folder_path, "labels")
-            locations_folder = os.path.join(folder_path, "locations")
+            self.images_folder = os.path.join(folder_path, "images")
+            self.labels_folder = os.path.join(folder_path, "labels")
+            self.locations_folder = os.path.join(folder_path, "locations")
 
-            self.import_images(images_folder)
+            self.import_images(self.images_folder)
             
-            if os.path.exists(locations_folder):
+            if os.path.exists(self.locations_folder):
                 self.location_added = True
-                location_label = self.import_locations(images_folder, locations_folder)
+                location_label = self.import_locations(self.images_folder, self.locations_folder)
             else:
                 location_label = tk.Label(self.master, text="Locations have not been provided.")
 
@@ -212,10 +218,10 @@ class App(tk.Tk):
             for name in self.import_df['name']:
                 file_list.insert(tk.END, name)
 
-            if os.path.exists(labels_folder):
+            if os.path.exists(self.labels_folder):
                 self.check2.config(state='normal')
                 self.check4.config(state='normal')
-                label_label = self.import_labels(images_folder, labels_folder)
+                label_label = self.import_labels(self.images_folder, self.labels_folder)
             else:
                 label_label = tk.Label(self.master, text="The images are not labelled!")
             
@@ -479,6 +485,7 @@ class App(tk.Tk):
                              output_path,
                              csv_exist)
 
+    
 
     def performance_matrix(self, settings, image_ids, label_dirs, IoU, label_folder_path):
         """
@@ -572,7 +579,9 @@ class App(tk.Tk):
         """
         
         dir_path = filedialog.askdirectory(initialdir=".", title="Create Output Directory", parent=self.master)
-
+        
+        
+        
         images_path = self.import_df['folder_path'][0] + '/images/'
         images_path = images_path.replace(' ', '\ ')
         label_folder_path = 0
@@ -651,8 +660,11 @@ class App(tk.Tk):
 
 
 
-        
+        # where there are location information for each input image
         if self.location_added: 
+            add_loc_all_detected_csv(os.path.join(settings['Output'], 'detections'), 
+                                     self.images_folder, 
+                                     self.locations_folder)
             print('heall yeah################################################################')
             
         
@@ -695,4 +707,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()################################################################
+    main()
