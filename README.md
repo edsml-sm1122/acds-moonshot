@@ -46,7 +46,7 @@ Note: this option is always ticked and disabled because, by default, the softwar
 - `bounding_boxes (with ground truth)`: a .png file for each input image that shows the bounding boxes of the craters detected by the CDM in one colour and the ground truth bounding boxes in a different color. 
 Note: this option can only be selected when ground-truth labels have been provided.
 - `size-frequency dist`: a plot for each input image comparing the ground truth bounding boxes and the model detection bounding boxes. 
-Note: this option can only be selected when the Moon planet has been selected.
+Note: this option will only produce output when the Moon planet has been selected.
 - `performance matrix`: a .csv file for each input image that summarises the True Positive, False Positive and False Negative detections in the image. 
 Note: this option can only be selected when ground-truth labels have been provided.
 
