@@ -1,3 +1,5 @@
+"""This module is used calculate coordinates"""
+
 import numpy as np
 import pandas as pd
 from pathlib import Path  
@@ -5,8 +7,9 @@ import os
 import math
 
 def convert_function(W,H,res,n,x,y,w,h):
+    
     """
-    Given Width(W), Height(H) of the picture, length of the sqaure x
+    Given Width(W), Height(H) of the picture, length of the square x
     and the crater position (x1,y1,w1,h1) in small tiles, return position
     and size of crater relative to the input image.
     Parameters
@@ -128,7 +131,6 @@ def output_function(rootdir,outpath):
     df.to_csv(filepath,index=False, header=False) 
     
     return np.array(res)
-
 
 # run: python convert_tool.py -v 
 if __name__ == "__main__":
