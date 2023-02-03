@@ -9,7 +9,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image, ImageDraw
-import shlex
 
 
 
@@ -52,10 +51,13 @@ def comparedBox(imgpath, bbpath, tbpath, outpath, csv_exist):
   #display(rawimg)
 
 
+
+# boundBox('/Users/dl1122/Downloads/evaluation_dataset/moon/images/Lunar_test_B.jpg',  #input path
+#           '/Users/dl1122/Desktop/final moon/detections/Lunar_test_B.csv',
+#          '/Users/dl1122/Desktop/final moon/images/bounding boxes/Lunar_test_B.jpg',
+#          csv_exist = True)  
+
 '''
-boundBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png',  #input path
-            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
-         '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output.jpg')  
 comparedBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png', #input path
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
             '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/labels/test_1.csv', #true label path
@@ -98,14 +100,14 @@ def to_coords(imgpath, lat, lon, bbpath, R, image_scale):
       reader = csv.reader(bboxloc)
       for i, rows in enumerate(reader):
         crtP.append(rows[:4])
-        crtP[i] += ([float(rows[0])*imgW*image_scale + lon, lat - float(rows[1])*imgH*image_scale , (max(float(rows[2])*imgW, float(rows[3])*imgH)*image_scale*R)])
+        crtP[i] += ([float(rows[0])*imgW*image_scale/(1000 * R) + lon, lat - float(rows[1])*imgH*image_scale/(1000 * R) , (max(float(rows[2])*imgW, float(rows[3])*imgH)*(image_scale / 1000))])
 
     with open(bbpath, 'w', newline='') as file:
       writer = csv.writer(file)
       writer.writerows(crtP)
       
       
-'''
+      
 import shlex
 import os
 
@@ -117,7 +119,7 @@ bbspath = shlex.split(bbspath)[0]
 
 
 loc_path = '/Users/dl1122/Downloads/Archive/data/locations'
-'''
+
 
 
 
@@ -158,5 +160,7 @@ def add_loc_all_detected_csv(bbspath,imgs_path,loc_path,image_scale = 100, plane
               
         
         
+
+
 
 
