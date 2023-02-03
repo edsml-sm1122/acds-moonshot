@@ -670,6 +670,8 @@ class App(tk.Tk):
                 subfolder_path = os.path.join('cropped', subfolder)
                 if os.path.isdir(subfolder_path):
           
+                    print('this is my final outpath +++++++++++++++++++++++++++++++++++++++++++++++')
+                    print(final_csv_output_path)
                     
                     output_combined_csv(subfolder_path, final_csv_output_path)
                     
