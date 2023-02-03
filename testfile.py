@@ -1,5 +1,5 @@
 import numpy as np
-
+import gui_helper
 from convert import convert_function
 from gui_helper import *
 from statistic import *
@@ -73,6 +73,36 @@ def test_tripleStatic():
     goal = (0, 5, 3)
     assert np.isclose(res, goal).all()
     
+def test_count_files():
+    res = gui_helper.count_files('Archive/data')
+    goal = 12
+    assert np.isclose(res, goal).all()
+
+
+def test_ends_with_csv():
+    res1 = gui_helper.ends_with_csv('Archive/data/images') 
+    assert res1
+    
+
+
+def test_check_file_names():
+    res1 = gui_helper.check_file_names('Archive/data/images', 'Archive/data/labels')
+    # res2 = gui_helper.check_file_names('Archive/data', 'Archive/data/labels')
+    assert res1 
+    
+
+
+def test_check_label_folder():
+    res1 = gui_helper.check_label_folder('Archive/data/images', 'Archive/data/images')
+    goal1 = ('labels', ['Archive/data/images/.DS_Store', 'Archive/data/images/test4.png', 'Archive/data/images/test1.png', 'Archive/data/images/test3.png', 'Archive/data/images/test2.png'])
+    assert np.compare_chararrays(res1[0],goal1[0],'==',rstrip = True).all()
+
+
+def test_check_location_folder():
+    res1 = gui_helper.check_location_folder('Archive/data/images', 'Archive/data/images') # wrong data type
+    goal1 = ('locations', {'latitudes': [], 'longitudes': []})
+    assert np.compare_chararrays(res1[0],goal1[0],'==',rstrip = True).all()
+
 
     
 
