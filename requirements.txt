@@ -8,4 +8,4 @@ sphinx
 pandas
 pybryt
 pytest
-
+PIL
