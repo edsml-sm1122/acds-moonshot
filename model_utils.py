@@ -1,14 +1,11 @@
-import torch
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image
 import shlex, subprocess
-import runpy
 import os
 from pathlib import Path
-from gui_helper import remove_ds_store
 from matplotlib import pyplot as plt
 from PIL import Image, ImageOps
 from numpy import asarray
@@ -18,11 +15,8 @@ import shutil
 import math
 from data_manager import DataManager
 
-
-
-
-
 class MyModel(DataManager):
+
     def __init__(self,model_dir='yolov5',mymodel='yolov5x', hyps='hyps/moon_hyp_params.yaml',yaml='moon.yaml'):
       self.model_dir = model_dir
       self.model = mymodel
@@ -30,6 +24,7 @@ class MyModel(DataManager):
       self.weights = f'{mymodel}.pt'
       self.hyps = hyps
       self.yaml = yaml
+
 
     def predict(self, best_w, img_size=416, conf=0.4, dir_predictions='' ):
       
@@ -45,8 +40,9 @@ class MyModel(DataManager):
       
       return 0
 
+
     def plot_test_image(self,img):
-      #plot example test image with lable
+      #plot example test image with label
       
       _ = Image.open(img)
       fig, ax = plt.subplots()
@@ -68,6 +64,7 @@ class MyModel(DataManager):
       plt.show()
       return
 
+
     def plot_train_metircs(self,which_run='yolo_moons5'):
       #results 5x model
       _ = Image.open(os.path.join(which_run, 'results.png', ))
@@ -77,6 +74,7 @@ class MyModel(DataManager):
       _ = Image.open(os.path.join(which_run, 'confusion_matrix.png', ))
       fig, ax = plt.subplots(figsize=(15, 15))
       ax.imshow(_)
+
 
     def get_predicted_labels_for_images(self, dir_images, planet, output=False):
       
@@ -114,6 +112,7 @@ class MyModel(DataManager):
 
       return 0
 
+
     def get_latest_prediction(self):
         #combine predictions into 1 csv - get the latest
         paths = sorted(Path(self.model_dir,f'runs/detect/').iterdir(), key=os.path.getmtime)
@@ -122,14 +121,13 @@ class MyModel(DataManager):
         print(basepath)
         return basepath
 
+
     def get_predicted_images(self,which_run='exp10'):
       return os.path.join(self.model_dir,f'runs/detect/{which_run}/')
 
+
     def get_predicted_labels(self,which_run='exp10'):
       return os.path.join(self.model_dir,f'runs/detect/{which_run}/labels/')
-    
-    
-    
     
     
 def bigimgpix2cellpix(img,res,remain=False): 
@@ -251,13 +249,11 @@ def crop(path,mppix=100,has_mppix = True):
         print(f'figure {n} cropped with size {res}')
     
     return 'cropped'
-  
-  
-  
+
  
 def convert_function(W,H,x,n,x1,y1,w1,h1):
     """
-    Given Width(W), Height(H) of the picture, length of the sqaure x
+    Given Width(W), Height(H) of the picture, length of the square x
     and the crater position (x1,y1,w1,h1) in small tiles, return position
     and size of crater relative to the input image.
 
@@ -299,6 +295,7 @@ def convert_function(W,H,x,n,x1,y1,w1,h1):
     h2 = h1*x / H
     
     return (x2,y2,w2,h2)
+
 
 def output_combined_csv(rootdir,outpath):
     """Convert the data in smaller tiles to data in the full picture
