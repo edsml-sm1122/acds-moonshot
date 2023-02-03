@@ -75,7 +75,7 @@ Pytests were created for the following files:
 - convert.py
 - statistic.py
 
-A dummy directory and test data was create to run the tests.
+A dummy directory and test data was created to run the tests.
 
 ## Team:
 
