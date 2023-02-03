@@ -28,7 +28,7 @@ Optional subdirectories in the input folder:
 
 Once the input folder location has been selected, the image names will be listed on the GUI window (see example below). 
 
-![image_1](image_1.png)
+<img src=image_1.png width="500"/>
 
 3) Optional:
 - Input box 1: Add information about image resolution in metres per pixel (m/px). The default is 100 m/px.
