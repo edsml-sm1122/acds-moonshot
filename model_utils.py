@@ -433,12 +433,14 @@ def output_combined_csv(rootdir,outpath):
             if root.__contains__('detections') == False:
                 continue
             
+            
             # print(filename)
+            print(root)
             n = int(filename.split('.')[0])    
             original_image_size = [0.0, 0.0]
-            original_image_size[0] = float(root.rsplit("/")[0].rsplit("_")[-2])
-            original_image_size[1] = float(root.rsplit("/")[0].rsplit("_")[-1])
-            # print(root)
+            original_image_size[0] = float(root.rsplit("/")[1].rsplit("_")[-2])
+            original_image_size[1] = float(root.rsplit("/")[1].rsplit("_")[-1])
+            print(root)
             # print(original_image_size)
 
             # print(n)
@@ -484,12 +486,18 @@ def output_combined_csv(rootdir,outpath):
 
     df = pd.DataFrame(res)
     
-    f_name = rootdir
-    # f_name = rootdir.split("/")[1]
+    # f_name = rootdir
+    print('£££££££££££££££££££££££££££££££££££££££')
+    print(rootdir)
+    f_name = rootdir.split("/")[1]
     f_name = '_'.join(f_name.split('_')[:-2]) + ".csv"
      #print(f_name)
     
     filepath = Path(outpath + "/" + f_name)
+    
+    
+    print('****************************************************************')
+    print(filepath)
     df.to_csv(filepath,index=False, header=False) 
     
     return np.array(res)
