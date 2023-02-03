@@ -1,0 +1,102 @@
+
+from os import listdir
+
+import csv
+
+import random
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
+from PIL import Image, ImageDraw
+
+
+
+def atomBound(imgpath, bbpath, csv_exist=True):
+  # output rected img to a folder
+  rawimg = Image.open(imgpath)
+  rawimg = rawimg.convert("RGB")
+  postimg = ImageDraw.ImageDraw(rawimg)
+  w,h = rawimg.size
+  
+  if csv_exist == True:
+    with open(bbpath) as bboxloc:
+      reader = csv.reader(bboxloc)
+      for i, rows in enumerate(reader):
+          postimg.rectangle(((float(rows[0])*w - float(rows[2])*w/2, float(rows[1])*h - 
+                                        float(rows[3])*h/2), (float(rows[0])*w + float(rows[2])*w/2, float(rows[1])*h + float(rows[3])*h/2)), fill=None, outline='red', width=1)
+    
+  return rawimg, postimg
+
+
+def boundBox(imgpath, bbpath, outpath, csv_exist):
+  rawimg, postimg = atomBound(imgpath, bbpath, csv_exist)
+  rawimg.save(outpath)
+  #display(rawimg)
+
+
+def comparedBox(imgpath, bbpath, tbpath, outpath, csv_exist):
+  # output rected img to a folder
+  rawimg, postimg = atomBound(imgpath, bbpath, csv_exist)
+  w,h = rawimg.size 
+  
+  print('tbpath================================================================')
+  print(tbpath)
+  with open(tbpath) as tboxloc:
+    reader = csv.reader(tboxloc)
+    for i, rows in enumerate(reader):
+        postimg.rectangle(((float(rows[0])*w - float(rows[2])*w/2, float(rows[1])*h - 
+                                       float(rows[3])*h/2), (float(rows[0])*w + float(rows[2])*w/2, float(rows[1])*h + float(rows[3])*h/2)), fill=None, outline='blue', width=1)
+  rawimg.save(outpath)
+  #display(rawimg)
+
+
+'''
+boundBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png',  #input path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
+         '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output.jpg')  
+comparedBox('/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/images/test_1.png', #input path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/detections/test_1.csv', #detected label path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/data/labels/test_1.csv', #true label path
+            '/Users/dl1122/Library/Mobile Documents/com~apple~CloudDocs/Imperical College/Xenophanes/acds-moonshot-xenophanes/data/test output with true.jpg')  
+'''
+
+
+
+def to_coords(imgpath, lat, lon, bbpath, R, image_scale):
+    '''
+    Converts coordinates from the format [0,1] to latitude and longitude for a given 
+    location at the centre of the image.
+    
+    Parameters
+    -------------
+    x: x coordinate for crater location in [0,1]
+    y: y coordinate for crater location in [0,1]
+    w: width of the rectangle fitting around the crater in [0,1]
+    h: height of the rectangle fitting around the crater in [0,1]
+    lat_centre: latitude of the location at the centre of the image
+    lon_centre: longitude of the location at the centre of the image
+    lat_range: height of the image in degrees latitude
+    lon_range: width of the image in degrees longitude
+    
+    Returns
+    --------------
+    Coordinates x, y of the crater location in longitude and latitude 
+    Width w and height h of the rectangle fitting around the crater in degrees latitude and longitude
+
+    This function is called in ...
+    
+    '''
+    crtP = []
+    rawimg = Image.open(imgpath)
+    imgW,imgH = rawimg.size
+
+    with open(bbpath) as bboxloc:
+      reader = csv.reader(bboxloc)
+      for i, rows in enumerate(reader):
+        crtP.append(rows[:4])
+        crtP[i] += ([float(rows[0])*imgW*image_scale + lon, lat - float(rows[1])*imgH*image_scale , (max(float(rows[2])*imgW, float(rows[3])*imgH)*image_scale*R)])
+
+    with open(bbpath, 'w', newline='') as file:
+      writer = csv.writer(file)
+      writer.writerows(crtP)
