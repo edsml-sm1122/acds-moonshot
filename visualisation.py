@@ -9,6 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image, ImageDraw
+import shlex
 
 
 
@@ -104,7 +105,7 @@ def to_coords(imgpath, lat, lon, bbpath, R, image_scale):
       writer.writerows(crtP)
       
       
-      
+'''
 import shlex
 import os
 
@@ -116,7 +117,7 @@ bbspath = shlex.split(bbspath)[0]
 
 
 loc_path = '/Users/dl1122/Downloads/Archive/data/locations'
-
+'''
 
 
 
