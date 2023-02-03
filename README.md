@@ -32,6 +32,13 @@ Optional subdirectories in the input folder:
 
 Once the input folder location has been selected, the image names will be listed on the GUI window (see example below). 
 
+
+
+
+## Friday test data result
+
+https://drive.google.com/drive/folders/12HHsd_k0fbFxMQHH1ynA9QLiY4sf0Pxj?usp=sharing
+
 <img src=image_1.png width="300"/>
 
 #### 3) Optional:
