@@ -191,7 +191,7 @@ class DataManager:
     os.listdir(basepath)
 
     for lbl in os.listdir(basepath):
-      coords = pd.read_csv(os.path.join(basepath,lbl),header=None,index_col=None, sep = " ")
+      coords = pd.read_csv(os.path.join(basepath,lbl),header=None,index_col=None, sep = " ", encoding = 'latin-1')
       coords.drop(columns=coords.columns[-1],  axis=1,  inplace=True)
       coords.drop(columns=coords.columns[0],  axis=1,  inplace=True)  
       _=os.path.join(destination,lbl).replace("txt", "csv")
