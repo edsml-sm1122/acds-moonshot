@@ -1,3 +1,4 @@
+"""This module is used for the modelling."""
 import os
 from os import listdir
 import shutil
