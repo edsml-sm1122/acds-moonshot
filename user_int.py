@@ -171,10 +171,8 @@ class App(tk.Tk):
         else:
             if var.get() == 1:
                 self.selected_checkboxes[index] = var.get()
-                print(f"'{name}' checkbox was ticked.")
             else:
                 self.selected_checkboxes[index] = var.get()
-                print(f"'{name}' checkbox was unticked.")
 
     def import_folder(self):
         '''
@@ -359,8 +357,6 @@ class App(tk.Tk):
 
             output_path = os.path.join(settings['Output'] + '/images/' + 'original images')
             image_dirs = shlex.split(image_dirs)[0]
-            print('this is image_dirs incopy tree')
-            print(image_dirs)
             #image_dirs = image_dirs.replace('\ ', ' ')
             copy_tree(str(image_dirs), str(output_path))    
 
@@ -459,18 +455,9 @@ class App(tk.Tk):
                     csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
                     input_csv = os.path.join(label_folder_path, image_ids[i] + '.csv')
                     input_csv = shlex.split(input_csv)[0]
-                    print('this is input_csv ===============')
-                    print(input_csv)
                     csv_exist = False
-                    print('this is csv_path ===============')
-                    print(csv_path)
                     
-                    
-                    print('previous success ===============')
-                    print(label_dirs[i])
 
-                    print('this is image_dirs ===============')
-                    print(image_dirs[i])
                     
                     
                     
@@ -500,12 +487,10 @@ class App(tk.Tk):
                 
                 for i in range(len(image_ids)):
                     filename = os.path.basename(image_dirs[i])
-                    print('this is file name sssssssssssssssssssssssssssssssssssssssssssss')
-                    print(filename)
+              
                     output_path = os.path.join(settings['Output'] + '/size frequency distribution/' , filename)
                     
-                    print('this is outputpath name sssssssssssssssssssssssssssssssssssssssssssss')
-                    print(output_path)
+            
                     csv_path = settings['Output'] + '/' + 'detections' + '/' + image_ids[i] + '.csv'
 
                     
@@ -578,7 +563,6 @@ class App(tk.Tk):
                     csv_exist = False
                     if os.path.isfile(csv_path):
                         csv_exist = True
-                    print(csv_path, label_dirs[i])
                     nTP, nFP, nFN = tripleStatic( 
                              csv_path,
                              input_csv,
@@ -645,20 +629,9 @@ class App(tk.Tk):
             'Input_label_path': label_folder_path
         }
         
-        
-        print('this is what i want')
-        print(settings['Input_path'])
-        print(settings['Output'])
+      
         
         
-        
-        '''
-        ################################################################    
-        ################################################################
-        ################################################################
-        ################################################################
-        ################################################################
-        '''
         # Calling the models, with the input images directory
         
         # when its mars images
@@ -696,10 +669,7 @@ class App(tk.Tk):
             for subfolder in os.listdir('cropped'):
                 subfolder_path = os.path.join('cropped', subfolder)
                 if os.path.isdir(subfolder_path):
-                    print('################################################################')
-                    print(subfolder_path)
-                    print(final_csv_output_path)
-                    print('################################################################')
+          
                     
                     output_combined_csv(subfolder_path, final_csv_output_path)
                     
@@ -713,17 +683,8 @@ class App(tk.Tk):
                                      self.locations_folder,
                                      float(settings['Image_size']),
                                      settings['Planet'])
-            print('heall yeah################################################################')
             
-        
-        '''
-        ################################################################    
-        ################################################################
-        ################################################################
-        ################################################################
-        ################################################################
-        '''
-        
+
         # getting path information (for the images and labels) located in the self.import_df attribute
         image_dirs = self.import_df['path'].values.tolist()
         image_ids = (self.import_df['name'].map(lambda x: x.split(".")[0])).values.tolist()
