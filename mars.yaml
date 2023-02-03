@@ -1,0 +1,10 @@
+train: ../mars_dataset/images/train/ 
+val:  ../mars_dataset/images/val/
+test:  ../mars_dataset/images/test/
+
+
+# number of classes
+nc: 1
+
+# class names
+names: ["crater"]

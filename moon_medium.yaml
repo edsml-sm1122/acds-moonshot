@@ -1,0 +1,10 @@
+train: ../moon_dataset_medium/images/train/ 
+val:  ../moon_dataset_medium/images/val/
+test:  ../moon_dataset_medium/images/test/
+
+
+# number of classes
+nc: 1
+
+# class names
+names: ["crater"]
