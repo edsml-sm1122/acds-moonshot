@@ -8,6 +8,10 @@ be used for dating.
 
 ## User Manual:
 
+#### 0) Before running the software, you need to download the following file and put that into the root directory (where the user_int.py file located) 
+
+https://drive.google.com/drive/folders/1PBk6QbsA7LISa74J5gRS0PCphb06LsCH?usp=share_link
+
 #### 1) To run the software tool, type the following command in the terminal:
 
 >> python3 user_int.py
