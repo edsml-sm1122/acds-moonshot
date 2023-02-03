@@ -70,7 +70,7 @@ Run the following command in the terminal:
 
 >> Pytest testfile.py
 
-Pytests have been created for the following files:
+Pytests were created for the following files:
 - gui_helper.py
 - convert.py
 - statistic.py
