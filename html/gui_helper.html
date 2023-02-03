@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>gui_helper module &#8212; Moonshot  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="model_utils module" href="model_utils.html" />
+    <link rel="prev" title="data_manager module" href="data_manager.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-gui_helper">
+<span id="gui-helper-module"></span><h1>gui_helper module<a class="headerlink" href="#module-gui_helper" title="Permalink to this heading">¶</a></h1>
+<p>This module contains helper functions used for the user interface (in the user_int module).</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.check_file_names">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">check_file_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.check_file_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that two directores have matching file names (excludes the file extensions).</p>
+<p>This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder), below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder_1</strong> (<em>path to the first directory.</em>) – </p></li>
+<li><p><strong>folder_2</strong> (<em>path to the second directory.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>- Boolean</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the directories contains files with matching names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.check_image_folder">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">check_image_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.check_image_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the ‘images’ subdirectory exists.
+Checks that the images in the subdirectory are of an appropriate format (accepts only .jpg, .png, .tif).
+If no errors are found, appends the name and path of the images to a dictionary, and returns the dictionary.</p>
+<p>This function is used in the import_images() method (see user_int.py).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>image_folder</strong> (<em>path to the 'images' folder.</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>- A string</strong> (<em>if the string “images” is returned, no errors were found; otherwise, the string describes the error.</em>)</p></li>
+<li><p><strong>- files</strong> (<em>dictionary which contains the name and path of the images in the image_folder.</em>)</p></li>
+<li><p><strong>(Note</strong> (<em>the dictionary is empty if an error is found.)</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.check_label_folder">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">check_label_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.check_label_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the label_folder only contains csv files.
+Checks that the label_folder contains a .csv file associated with each file in the image_folder.
+Checks that the names of the csv files match the names of the images in the image_folder.
+If no errors are found, appends the path of the csv files from the label_folder to a list and returns the list.</p>
+<p>This function is used in the import_labels() method (see user_int.py).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_folder</strong> (<em>path to the 'images' folder.</em>) – </p></li>
+<li><p><strong>label_folder</strong> (<em>path to the 'labels' folder.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>- A string</strong> (<em>if the string “labels” is returned, no errors were found; otherwise, the string describes the error.</em>)</p></li>
+<li><p><strong>- files</strong> (<em>list which contains the paths to the csv files in the labels_folder.</em>)</p></li>
+<li><p><strong>(Note</strong> (<em>the list is empty if an error is found.)</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.check_location_folder">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">check_location_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image_folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.check_location_folder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the location_folder only contains csv files.
+Checks that the location_folder contains a .csv file associated with each file in the image_folder.
+Checks that the names of the csv files match the names of the images in the image_folder.
+Checks that the csv files only contain two values (the latitude and longitude associated with the images in the image_folder).</p>
+<p>If no errors are found, appends the latitude and longitude infromation from the csv files to a dictionary, and returns the dictionary.</p>
+<p>This function is used in the import_locations() method (see user_int.py).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_folder</strong> (<em>path to the 'images' folder.</em>) – </p></li>
+<li><p><strong>location_folder</strong> (<em>path to the 'locations' folder.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>- A string</strong> (<em>if the string “locations” is returned, no errors were found; otherwise, the string describes the error.</em>)</p></li>
+<li><p><strong>- files</strong> (<em>dictionary which contains the latitude and longitude information from the csv files.</em>)</p></li>
+<li><p><strong>(Note</strong> (<em>the list is empty if an error is found.)</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.count_files">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">count_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.DS_Store'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.count_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts files in a directory, but does not count the exclude file (default: .DS_Store files).</p>
+<p>This function is used in check_label_folder(image_folder, label_folder) and in check_location_folder(image_folder, location_folder), below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>the directory which contains the files to be counted.</em>) – </p></li>
+<li><p><strong>exclude</strong> (<em>the file name to exclude from the count.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>count</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the number of files in the directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.ends_with_csv">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">ends_with_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.ends_with_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that a directory only contains .csv files (it overlooks .DS_Store files).</p>
+<p>This function is used in check_label_folder(image_folder, label_folder) and check_location_folder(image_folder, location_folder), below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>folder</strong> (<em>path to the directory.</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>- Boolean</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the folder only contains .csv (or .DS_Store files)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="gui_helper.remove_ds_store">
+<span class="sig-prename descclassname"><span class="pre">gui_helper.</span></span><span class="sig-name descname"><span class="pre">remove_ds_store</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gui_helper.remove_ds_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes strings that contain the substring ‘.DS_Store’.</p>
+<p>This function is used in the import_images(), import_locations(), and import_labels() methods
+(see user_int.py).
+It is also used in the check_file_names(folder_1, folder_2) function below.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_list</strong> (<em>list of strings.</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>list</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>file_list but without the strings which contain the substring ‘.DS_Store’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Moonshot</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">acds-moonshot-xenophanes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="convert_tool.html">convert_tool module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_manager.html">data_manager module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">gui_helper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_utils.html">model_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistic.html">statistic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testfile.html">testfile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_int.html">user_int module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualisation.html">visualisation module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">acds-moonshot-xenophanes</a><ul>
+      <li>Previous: <a href="data_manager.html" title="previous chapter">data_manager module</a></li>
+      <li>Next: <a href="model_utils.html" title="next chapter">model_utils module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Xenophanes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/gui_helper.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

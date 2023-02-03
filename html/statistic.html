@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>statistic module &#8212; Moonshot  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="testfile module" href="testfile.html" />
+    <link rel="prev" title="model_utils module" href="model_utils.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-statistic">
+<span id="statistic-module"></span><h1>statistic module<a class="headerlink" href="#module-statistic" title="Permalink to this heading">¶</a></h1>
+<p>This module is used to calculate the IoU of our detections. It is also used to calculate the True Positive, False Negative and False Positive values.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="statistic.iouCal">
+<span class="sig-prename descclassname"><span class="pre">statistic.</span></span><span class="sig-name descname"><span class="pre">iouCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statistic.iouCal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the IoU.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>float</em><em>, </em><em>x coordinate of the centre of the detected bounded box.</em>) – </p></li>
+<li><p><strong>y1</strong> (<em>float</em><em>, </em><em>y coordinate of the centre of the detected bounded box.</em>) – </p></li>
+<li><p><strong>x2</strong> (<em>float</em><em>, </em><em>x coordinate of the centre of the ground truth bounded box.</em>) – </p></li>
+<li><p><strong>y2</strong> (<em>float</em><em>, </em><em>y coordinate of the centre of the ground truth bounded box.</em>) – </p></li>
+<li><p><strong>w1</strong> (<em>float</em><em>, </em><em>width of the detected bounded box.</em>) – </p></li>
+<li><p><strong>h1</strong> (<em>float</em><em>, </em><em>height of the detected bounded box.</em>) – </p></li>
+<li><p><strong>w2</strong> (<em>float</em><em>, </em><em>width of the ground truth bounded box.</em>) – </p></li>
+<li><p><strong>h2</strong> (<em>float</em><em>, </em><em>height of the ground truth bounded box.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>IoU score.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statistic.plot_frequency_distribution">
+<span class="sig-prename descclassname"><span class="pre">statistic.</span></span><span class="sig-name descname"><span class="pre">plot_frequency_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">imgpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_scale</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbpath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'None'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statistic.plot_frequency_distribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the frequency distribution (the plot is saved to a directory).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>imgpath</strong> (<em>str</em><em>, </em><em>path to input images.</em>) – </p></li>
+<li><p><strong>bbpath</strong> (<em>str</em><em>, </em><em>path to csv file generated by the model containing information about detected bounded boxes.</em>) – </p></li>
+<li><p><strong>R</strong> (<em>float</em><em>, </em><em>planet radius</em><em> (</em><em>not used because we are only plotting for the planet Moon</em><em>)</em><em>.</em>) – </p></li>
+<li><p><strong>image_scale</strong> (<em>float</em><em>, </em><em>image resolution</em><em> (</em><em>m/px</em><em>)</em>) – </p></li>
+<li><p><strong>outpath</strong> (<em>str</em><em>, </em><em>path to png output images.</em>) – </p></li>
+<li><p><strong>tbpath</strong> (<em>str</em><em>, </em><em>path to csv file containing ground truth bounded boxes information</em><em> (</em><em>default is &quot;None&quot;</em><em>)</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statistic.tripleStatic">
+<span class="sig-prename descclassname"><span class="pre">statistic.</span></span><span class="sig-name descname"><span class="pre">tripleStatic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bbpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tbpath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_exist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statistic.tripleStatic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the TP, FN and FP.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bbpath</strong> (<em>str</em><em>, </em><em>path to csv file generated by the model containing information about detected bounded boxes.</em>) – </p></li>
+<li><p><strong>tbpath</strong> (<em>str</em><em>, </em><em>path to csv file containing ground truth bounded boxes information.</em>) – </p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>IoU threshold</em><em>, </em><em>default = 0.5.</em>) – </p></li>
+<li><p><strong>csv_exist</strong> (<em>Boolean</em><em>, </em><em>True if bbpath exists</em><em> (</em><em>False if the model does not detect any craters</em><em>)</em><em>.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>TP</strong> (<em>int, True Positive value</em>)</p></li>
+<li><p><strong>FP</strong> (<em>int, False Positive value</em>)</p></li>
+<li><p><strong>FN</strong> (<em>, int, False Negative value</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Moonshot</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">acds-moonshot-xenophanes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="convert_tool.html">convert_tool module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data_manager.html">data_manager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gui_helper.html">gui_helper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_utils.html">model_utils module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">statistic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testfile.html">testfile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_int.html">user_int module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualisation.html">visualisation module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">acds-moonshot-xenophanes</a><ul>
+      <li>Previous: <a href="model_utils.html" title="previous chapter">model_utils module</a></li>
+      <li>Next: <a href="testfile.html" title="next chapter">testfile module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Xenophanes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/statistic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

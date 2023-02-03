@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>data_manager module &#8212; Moonshot  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="gui_helper module" href="gui_helper.html" />
+    <link rel="prev" title="convert_tool module" href="convert_tool.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-data_manager">
+<span id="data-manager-module"></span><h1>data_manager module<a class="headerlink" href="#module-data_manager" title="Permalink to this heading">¶</a></h1>
+<p>This module is used for the modelling (see the model_utils module).</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="data_manager.DataManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">data_manager.</span></span><span class="sig-name descname"><span class="pre">DataManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'i':</span> <span class="pre">'images',</span> <span class="pre">'l':</span> <span class="pre">'labels'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dataset'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Main data Handler class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.construct_dataset_tree">
+<span class="sig-name descname"><span class="pre">construct_dataset_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['images',</span> <span class="pre">'labels']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['train',</span> <span class="pre">'val',</span> <span class="pre">'test']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predictions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.construct_dataset_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Created folder structure for filling up with data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>bool</strong> (<em>predictions</em>) – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> (<em>optional folder to store images for inference - we are not using this atm. Defaults to False.</em>) – </p></li>
+<li><p><strong>(</strong><strong>list</strong> (<em>model_dirs</em>) – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> – </p></li>
+<li><p><strong>(</strong><strong>list</strong> – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> – </p></li>
+<li><p><strong>(</strong><strong>bool</strong> – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>int</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.convert_csv_to_txt">
+<span class="sig-name descname"><span class="pre">convert_csv_to_txt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.convert_csv_to_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to convert csv to txt while copying the data. Yolo expects txt file with lables and classes specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>int</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.convert_txt_to_csv">
+<span class="sig-name descname"><span class="pre">convert_txt_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">basepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.convert_txt_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert txt file back to csv file and strip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>destination</em>) – </p></li>
+<li><p><strong>(</strong><strong>str</strong><strong>)</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>int</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.create_dir">
+<span class="sig-name descname"><span class="pre">create_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.create_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new dir</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>path_name</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>int</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.delete_if_exists">
+<span class="sig-name descname"><span class="pre">delete_if_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.delete_if_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes file or directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>path_name</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>int</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>0 on success</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="data_manager.DataManager.split_for_model">
+<span class="sig-name descname"><span class="pre">split_for_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'test':</span> <span class="pre">0.3,</span> <span class="pre">'train':</span> <span class="pre">0.7,</span> <span class="pre">'val':</span> <span class="pre">0.7}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_aug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_manager.DataManager.split_for_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate model training validation and test sets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>dict</strong> (<em>model_chunks</em>) – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> (<em>if we want to play around with the data - this is a potention extension to the model. Defaults to False.</em>) – </p></li>
+<li><p><strong>(</strong><strong>bool</strong> (<em>data_aug</em>) – </p></li>
+<li><p><strong>optional</strong><strong>)</strong> – </p></li>
+<li><p><strong>Raises</strong> – </p></li>
+<li><p><strong>--------</strong> – </p></li>
+<li><p><strong>Exception</strong> (<em>_description_</em>) – </p></li>
+<li><p><strong>Exception</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>_type_</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Moonshot</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">acds-moonshot-xenophanes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="convert_tool.html">convert_tool module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">data_manager module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gui_helper.html">gui_helper module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model_utils.html">model_utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="statistic.html">statistic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testfile.html">testfile module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_int.html">user_int module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualisation.html">visualisation module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">acds-moonshot-xenophanes</a><ul>
+      <li>Previous: <a href="convert_tool.html" title="previous chapter">convert_tool module</a></li>
+      <li>Next: <a href="gui_helper.html" title="next chapter">gui_helper module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Xenophanes.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/data_manager.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

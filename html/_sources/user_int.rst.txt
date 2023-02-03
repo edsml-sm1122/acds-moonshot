@@ -1,0 +1,7 @@
+user\_int module
+================
+
+.. automodule:: user_int
+   :members:
+   :undoc-members:
+   :show-inheritance:
