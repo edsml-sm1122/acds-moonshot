@@ -21,7 +21,7 @@ The accepted image formats are: .png, .jpg, .tif.
 Optional subdirectories in the input folder:
 - `labels/` containing a `.csv` file associated with each image file
   that provides a list of all the ground truth bounding boxes for
-  craters in the image (i.e. 0.4266826923076923,0.16346153846153846,0.06971153846153846,0.0673076923076923. The `.csv` files should not contain any headers.
+  craters in the image (i.e. 0.4266826923076923,0.16346153846153846,0.06971153846153846,0.0673076923076923). The `.csv` files should not contain any headers.
 - `locations/` containing a `.csv` file associated with each image file
   that provides location of the image centre in latitude and longitude.
   (i.e. 45.792650,26.826999). The `.csv` files should not contain any headers.
