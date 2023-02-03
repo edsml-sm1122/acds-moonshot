@@ -48,7 +48,7 @@ def convert_function(W,H,x,n,x1,y1,w1,h1):
     
     return (x2,y2,w2,h2)
 
-def output(rootdir,outpath):
+def output_function(rootdir,outpath):
     """Convert the data in smaller tiles to data in the full picture
 
     Args:
@@ -59,7 +59,6 @@ def output(rootdir,outpath):
         .csv file
     """
     res = []
-    n = 0
     sml = "init"
     sml_now = "initt"
     for root, dirs, files in os.walk(rootdir,topdown=True):
@@ -72,29 +71,16 @@ def output(rootdir,outpath):
             if root.__contains__('detections') == False:
                 continue
             
-            if n == 0:
-                sml = root.rsplit("/")[2].rsplit("_")[0]
-                
-            sml_now = root.rsplit("/")[2].rsplit("_")[0]
-            if sml != sml_now:
-                n = 1
-            else:
-                n += 1
-            
-            # print(root)
-            # print(sml)
-            # print(sml_now)
-            # print(n)
-            
-            sml = sml_now
+            n = int(filename.split('.')[0])
             
             original_image_size = [0.0, 0.0]
             original_image_size[0] = float(root.rsplit("/")[1].rsplit("_")[2])
             original_image_size[1] = float(root.rsplit("/")[1].rsplit("_")[3])
-            #print(original_image_size)
+            
             
             splited_image_size = float(root.rsplit("/")[2].rsplit("_")[1])
-            #print(splited_image_size)
+            
+            
             
             with open(os.path.join(root, filename)) as f:            
                     for line in f:
@@ -102,11 +88,10 @@ def output(rootdir,outpath):
                         out = convert_function(original_image_size[0],original_image_size[1],splited_image_size,n,
                                                 data[0],data[1],data[2],data[3])
                         res.append(out)
-                        #print(root)
 
     df = pd.DataFrame(res)
     f_name = rootdir.split("/")[1].split("_")[0] + ".csv"
-    # np.savetxt(f_name, res, delimiter=",")
+    np.savetxt(f_name, res, delimiter=",")
     filepath = Path(outpath + "/" + f_name)
     df.to_csv(filepath,index=False, header=False) 
     
